@@ -6,6 +6,23 @@ import { getLenis } from "@/lib/lenis";
 import { doctor } from "@/lib/site";
 
 export const PRELOADER_DONE = "preloader:done";
+const SEEN_KEY = "intro-seen";
+
+/**
+ * True once the intro has finished or been skipped in this page load. Components
+ * that mount after that point would otherwise wait for an event that already
+ * fired and only ever reach their fallback timer.
+ */
+export const isPreloaderDone = () =>
+  typeof document !== "undefined" && document.documentElement.dataset.intro === "done";
+
+const seenThisSession = () => {
+  try {
+    return sessionStorage.getItem(SEEN_KEY) === "1";
+  } catch {
+    return false;
+  }
+};
 
 export default function Preloader() {
   const root = useRef<HTMLDivElement>(null);
@@ -13,9 +30,14 @@ export default function Preloader() {
   const bar = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const finish = () => window.dispatchEvent(new Event(PRELOADER_DONE));
+    const finish = () => {
+      document.documentElement.dataset.intro = "done";
+      window.dispatchEvent(new Event(PRELOADER_DONE));
+    };
 
-    if (prefersReducedMotion()) {
+    // Once per session. The intro sets the tone on arrival; replaying it on
+    // every full page load only delays the phone number and the address.
+    if (prefersReducedMotion() || seenThisSession()) {
       gsap.set(root.current, { display: "none" });
       finish();
       return;
@@ -29,13 +51,18 @@ export default function Preloader() {
       onComplete: () => {
         document.body.style.overflow = "";
         getLenis()?.start();
+        try {
+          sessionStorage.setItem(SEEN_KEY, "1");
+        } catch {
+          // Private mode or blocked storage: the intro simply plays again next time.
+        }
         finish();
       },
     });
 
     tl.to(n, {
       v: 100,
-      duration: 1.4,
+      duration: 0.6,
       ease: "power2.inOut",
       onUpdate: () => {
         const v = Math.round(n.v);
@@ -43,8 +70,8 @@ export default function Preloader() {
         if (bar.current) bar.current.style.transform = `scaleX(${n.v / 100})`;
       },
     })
-      .to(".pre-word", { yPercent: -110, duration: 0.7, stagger: 0.06, ease: "expo.inOut" }, "-=0.25")
-      .to(root.current, { yPercent: -100, duration: 1, ease: "expo.inOut" }, "-=0.35")
+      .to(".pre-word", { yPercent: -110, duration: 0.5, stagger: 0.05, ease: "expo.inOut" }, "-=0.2")
+      .to(root.current, { yPercent: -100, duration: 0.7, ease: "expo.inOut" }, "-=0.35")
       .set(root.current, { display: "none" });
 
     return () => {

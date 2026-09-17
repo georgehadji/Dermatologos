@@ -3,6 +3,7 @@ import Reveal from "@/components/Reveal";
 import SplitLines from "@/components/SplitLines";
 import Magnetic from "@/components/Magnetic";
 import { doctor, mapsEmbed, mapsLink } from "@/lib/site";
+import { ClockIcon, MapPinIcon, PhoneIcon } from "@/components/Icon";
 
 export default function ContactBlock({ withForm = false }: { withForm?: boolean }) {
   return (
@@ -18,7 +19,7 @@ export default function ContactBlock({ withForm = false }: { withForm?: boolean 
 
           <Reveal className="mt-10 space-y-8">
             <div>
-              <p className="eyebrow">Διεύθυνση</p>
+              <p className="eyebrow flex items-center gap-2"><MapPinIcon className="size-3.5" />Διεύθυνση</p>
               <address className="mt-3 not-italic text-lg leading-relaxed text-ink">
                 {doctor.address.street}
                 <br />
@@ -36,7 +37,7 @@ export default function ContactBlock({ withForm = false }: { withForm?: boolean 
             </div>
 
             <div>
-              <p className="eyebrow">Ωράριο</p>
+              <p className="eyebrow flex items-center gap-2"><ClockIcon className="size-3.5" />Ωράριο</p>
               <p className="mt-3 text-lg text-ink">
                 {doctor.hours.label} {doctor.hours.open}–{doctor.hours.close}
               </p>
@@ -44,7 +45,7 @@ export default function ContactBlock({ withForm = false }: { withForm?: boolean 
             </div>
 
             <div>
-              <p className="eyebrow">Τηλέφωνο</p>
+              <p className="eyebrow flex items-center gap-2"><PhoneIcon className="size-3.5" />Τηλέφωνο</p>
               <Magnetic strength={12}>
                 <a
                   href={`tel:${doctor.phone}`}
@@ -80,10 +81,7 @@ export default function ContactBlock({ withForm = false }: { withForm?: boolean 
               className="size-full grayscale-[0.35] contrast-[1.05]"
             />
           </div>
-          <p className="mt-4 text-xs text-ink-3">
-            Ο χάρτης φορτώνεται από την Google. Φορτώνεται μόνο όταν εμφανιστεί στην
-            οθόνη σας.
-          </p>
+          <p className="mt-4 text-xs text-ink-3">Χάρτης Google · φορτώνεται μόνο όταν εμφανιστεί στην οθόνη.</p>
         </div>
       </div>
     </section>

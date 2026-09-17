@@ -59,9 +59,6 @@ export default function IatreioPage() {
               ))}
             </Reveal>
 
-            <p className="mt-10 text-xs text-ink-3">
-              Περάστε τον δείκτη πάνω από κάθε φωτογραφία για μεγέθυνση.
-            </p>
           </div>
         </section>
 

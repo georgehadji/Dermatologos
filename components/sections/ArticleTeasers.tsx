@@ -53,7 +53,7 @@ export default function ArticleTeasers({ limit }: { limit?: number }) {
                   <span>{a.readingMinutes} λεπτά ανάγνωσης</span>
                   <span
                     aria-hidden
-                    className="ml-auto block h-px w-6 bg-line transition-[width,background-color] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:w-12 group-hover:bg-accent"
+                    className="ml-auto block h-px w-12 origin-right scale-x-50 bg-line transition-[transform,background-color] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100 group-hover:bg-accent"
                   />
                 </p>
               </Link>

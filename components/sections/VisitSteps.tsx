@@ -43,7 +43,7 @@ export default function VisitSteps() {
   }, []);
 
   return (
-    <section id="episkepsi" ref={root} className="section-y bg-paper-2">
+    <section id="episkepsi" ref={root} className="section-y bg-blush">
       <div className="shell grid gap-14 md:grid-cols-12">
         <div className="md:col-span-4">
           <p className="eyebrow">Η επίσκεψη</p>

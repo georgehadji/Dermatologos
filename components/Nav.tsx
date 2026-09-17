@@ -95,15 +95,22 @@ export default function Nav() {
           </nav>
 
           <div className="flex items-center gap-4">
-            {state && (
-              <span className="hidden items-center gap-2 text-xs text-ink-2 xl:flex">
-                <span
-                  className={`size-1.5 rounded-full ${state.open ? "bg-accent-2" : "bg-ink-3"}`}
-                  style={state.open ? { boxShadow: "0 0 0 4px color-mix(in srgb, var(--color-accent-2) 22%, transparent)" } : undefined}
-                />
-                {state.label}
-              </span>
-            )}
+            {/* Reserved width: the label fills in after mount and must not nudge the phone button. */}
+            <span
+              aria-live="polite"
+              className="hidden min-w-[14rem] items-center justify-end gap-2 text-xs text-ink-2 xl:flex"
+              style={{ visibility: state ? "visible" : "hidden" }}
+            >
+              {state && (
+                <>
+                  <span
+                    className={`size-1.5 rounded-full ${state.open ? "bg-accent-2" : "bg-ink-3"}`}
+                    style={state.open ? { boxShadow: "0 0 0 4px color-mix(in srgb, var(--color-accent-2) 22%, transparent)" } : undefined}
+                  />
+                  {state.label}
+                </>
+              )}
+            </span>
 
             <Magnetic strength={10}>
               <a

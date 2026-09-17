@@ -6,6 +6,7 @@ import ParticleField from "@/components/webgl/ParticleField";
 import Reveal from "@/components/Reveal";
 import SplitLines from "@/components/SplitLines";
 import { conditions } from "@/lib/site";
+import { ArrowRightIcon } from "@/components/Icon";
 
 export default function ConditionsGrid({
   heading = "Παθήσεις & Υπηρεσίες",
@@ -67,9 +68,7 @@ export default function ConditionsGrid({
 
                 <span className="col-span-12 hidden justify-end md:col-span-1 md:flex">
                   <span className="grid size-9 place-items-center rounded-full border border-line transition-[background-color,border-color,transform] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1 group-hover:border-accent group-hover:bg-accent">
-                    <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.5" className="size-4 stroke-ink transition-colors group-hover:stroke-paper">
-                      <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                    <ArrowRightIcon className="size-4 text-ink transition-colors group-hover:text-paper" />
                   </span>
                 </span>
               </Link>

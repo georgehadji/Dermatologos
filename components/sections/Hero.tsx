@@ -3,9 +3,10 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { prefersReducedMotion } from "@/lib/gsap";
-import { doctor } from "@/lib/site";
+import { doctor, mapsLink } from "@/lib/site";
 import { getOpenState, type OpenState } from "@/lib/hours";
-import { PRELOADER_DONE } from "@/components/Preloader";
+import { PRELOADER_DONE, isPreloaderDone } from "@/components/Preloader";
+import { ArrowRightIcon, MapPinIcon, PhoneIcon } from "@/components/Icon";
 import HeroCanvas from "@/components/webgl/HeroCanvas";
 import Magnetic from "@/components/Magnetic";
 import SplitLines from "@/components/SplitLines";
@@ -24,6 +25,13 @@ export default function Hero() {
     // Adding the class starts the CSS keyframes. Until it is added the copy is
     // simply visible, so a missed event costs the animation and nothing else.
     const start = () => el.classList.add("is-intro");
+
+    // Repeat visit: the preloader finished before this effect ran, so the
+    // event is gone. Start now instead of waiting out the fallback timer.
+    if (isPreloaderDone()) {
+      start();
+      return;
+    }
 
     window.addEventListener(PRELOADER_DONE, start, { once: true });
     const fallback = window.setTimeout(start, 3500);
@@ -72,13 +80,28 @@ export default function Hero() {
               <li key={c}>{c}</li>
             ))}
           </ul>
-          <p
-            className="intro-item max-w-sm text-ink-2 md:col-span-5"
-            style={{ "--i": 6 } as React.CSSProperties}
-          >
-            Κλινική δερματολογία με έμφαση στη σαφή διάγνωση και σε θεραπευτικά πλάνα
-            που εξηγούνται από την πρώτη επίσκεψη.
-          </p>
+          {/*
+            For a walk-in practice the product is where and when. That belongs in
+            the first viewport, not a sentence about philosophy.
+          */}
+          <div className="intro-item md:col-span-5" style={{ "--i": 6 } as React.CSSProperties}>
+            <p className="text-ink">
+              {doctor.address.street}, {doctor.address.area} {doctor.address.postal}
+            </p>
+            <p className="mt-1 text-ink-2">
+              {doctor.hours.label} {doctor.hours.open}–{doctor.hours.close} · {doctor.hours.note}
+            </p>
+            <a
+              href={mapsLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor="link"
+              className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-accent underline underline-offset-4"
+            >
+              <MapPinIcon className="size-4" />
+              Οδηγίες πρόσβασης
+            </a>
+          </div>
         </div>
 
         <div className="mt-12 flex flex-wrap items-center gap-5">
@@ -87,9 +110,10 @@ export default function Hero() {
               href={`tel:${doctor.phone}`}
               data-cursor="call"
               data-cursor-label="Κλήση"
-              className="intro-item inline-block rounded-full bg-accent px-8 py-4 font-semibold text-paper transition-colors duration-300 hover:bg-ink"
+              className="intro-item inline-flex items-center gap-2.5 rounded-full bg-accent px-8 py-4 font-semibold text-paper transition-colors duration-300 hover:bg-ink"
               style={{ "--i": 7 } as React.CSSProperties}
             >
+              <PhoneIcon className="size-4" />
               {doctor.phoneDisplay}
             </a>
           </Magnetic>
@@ -102,37 +126,36 @@ export default function Hero() {
           >
             Δείτε τις παθήσεις
             <span className="grid size-9 place-items-center rounded-full border border-line transition-[background-color,border-color,transform] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1 group-hover:border-accent group-hover:bg-accent">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                strokeWidth="1.5"
-                className="size-4 stroke-ink transition-colors group-hover:stroke-paper"
-                aria-hidden
-              >
-                <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
+              <ArrowRightIcon className="size-4 text-ink transition-colors group-hover:text-paper" />
             </span>
           </Link>
 
-          {state && (
-            <span
-              className="intro-item inline-flex items-center gap-2.5 rounded-full border border-line bg-paper-2/70 px-4 py-2.5 text-sm text-ink-2 backdrop-blur"
-              style={{ "--i": 9 } as React.CSSProperties}
-            >
-              <span
-                className={`size-1.5 rounded-full ${state.open ? "bg-accent-2" : "bg-ink-3"}`}
-                style={
-                  state.open
-                    ? {
-                        boxShadow:
-                          "0 0 0 4px color-mix(in srgb, var(--color-accent-2) 22%, transparent)",
-                      }
-                    : undefined
-                }
-              />
-              {state.label}
-            </span>
-          )}
+          {/*
+            Always laid out, filled in after mount: the badge must not push the
+            two buttons sideways when the open state arrives.
+          */}
+          <span
+            aria-live="polite"
+            className="intro-item inline-flex min-h-[42px] min-w-[16rem] items-center gap-2.5 rounded-full border border-line bg-paper-2/70 px-4 py-2.5 text-sm text-ink-2 backdrop-blur"
+            style={{ "--i": 9, visibility: state ? "visible" : "hidden" } as React.CSSProperties}
+          >
+            {state && (
+              <>
+                <span
+                  className={`size-1.5 rounded-full ${state.open ? "bg-accent-2" : "bg-ink-3"}`}
+                  style={
+                    state.open
+                      ? {
+                          boxShadow:
+                            "0 0 0 4px color-mix(in srgb, var(--color-accent-2) 22%, transparent)",
+                        }
+                      : undefined
+                  }
+                />
+                {state.label}
+              </>
+            )}
+          </span>
         </div>
       </div>
 

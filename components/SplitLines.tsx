@@ -66,6 +66,16 @@ export default function SplitLines({
       }, 4000);
     };
 
+    // The preloader may already have finished (repeat visit, reduced motion)
+    // before this mounted; in that case the event will never come.
+    if (waitFor && document.documentElement.dataset.intro === "done") {
+      play();
+      return () => {
+        tween?.kill();
+        split?.revert();
+      };
+    }
+
     if (waitFor) {
       const onDone = () => play();
       window.addEventListener(waitFor, onDone, { once: true });

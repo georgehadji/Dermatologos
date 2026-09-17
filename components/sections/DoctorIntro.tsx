@@ -17,10 +17,6 @@ export default function DoctorIntro({ full = false }: { full?: boolean }) {
             radius={128}
             priority
           />
-          <p className="mt-4 text-xs text-ink-3">
-            Περάστε τον δείκτη πάνω από τη φωτογραφία — ο φακός λειτουργεί όπως ένα
-            δερματοσκόπιο.
-          </p>
         </div>
 
         <div className="md:col-span-7 md:pl-8">

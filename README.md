@@ -9,6 +9,14 @@ npm run dev      # http://localhost:3100
 npm run build    # static export to ./out
 ```
 
+## Design direction
+
+- **Purpose** — a patient decides in seconds whether to walk in tonight: where, when, who. Those three facts sit in the first viewport.
+- **Audience** — patients in eastern Thessaloniki, mostly on a phone, often mid-symptom; and portfolio reviewers.
+- **Tone** — clinical editorial. Warm paper, ink, one petrol accent and one warm blush surface; large serif type, generous space, nothing decorative that is not doing a job.
+- **Memorable detail** — the cursor is a dermatoscope.
+- **Constraints** — static export, Greek glyph coverage, WCAG AA contrast, `prefers-reduced-motion`, no third-party scripts.
+
 ## Stack
 
 | | |

@@ -175,7 +175,7 @@ function Prose({ block }: { block: Block }) {
       );
     case "note":
       return (
-        <p className="rounded-lg border border-line bg-paper-2 px-5 py-4 text-sm leading-relaxed text-ink-2">
+        <p className="rounded-lg border border-line bg-blush px-5 py-4 text-sm leading-relaxed text-ink-2">
           {block.text}
         </p>
       );

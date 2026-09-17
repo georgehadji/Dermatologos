@@ -12,6 +12,7 @@ export default function Nav() {
   const bar = useRef<HTMLElement>(null);
   const [menu, setMenu] = useState(false);
   const [state, setState] = useState<OpenState | null>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
 
   // Computed after mount only: the server has no idea what time it is in Athens
@@ -44,7 +45,22 @@ export default function Nav() {
 
   useEffect(() => {
     document.body.style.overflow = menu ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    if (!menu) return;
+
+    // Escape closes the overlay and focus returns to the button that opened
+    // it, so a keyboard user is never left stranded behind a full-screen panel.
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMenu(false);
+        toggleRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKey);
+    };
   }, [menu]);
 
   return (
@@ -69,7 +85,8 @@ export default function Nav() {
                 key={item.href}
                 href={item.href}
                 data-cursor="link"
-                className="group relative py-1 text-sm font-medium text-ink-2 transition-colors hover:text-ink"
+                aria-current={pathname === item.href ? "page" : undefined}
+                className="group relative py-1 text-sm font-medium text-ink-2 transition-colors hover:text-ink aria-[current=page]:text-accent"
               >
                 {item.label}
                 <span className="absolute inset-x-0 -bottom-0.5 h-px origin-right scale-x-0 bg-accent transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:origin-left group-hover:scale-x-100" />
@@ -100,8 +117,10 @@ export default function Nav() {
             </Magnetic>
 
             <button
+              ref={toggleRef}
               onClick={() => setMenu((v) => !v)}
               aria-expanded={menu}
+              aria-controls="mobile-menu"
               aria-label={menu ? "Κλείσιμο μενού" : "Άνοιγμα μενού"}
               className="grid size-10 cursor-pointer place-items-center lg:hidden"
             >
@@ -116,6 +135,9 @@ export default function Nav() {
 
       {/* Mobile / tablet overlay */}
       <div
+        id="mobile-menu"
+        aria-hidden={!menu}
+        inert={!menu}
         className={`fixed inset-0 z-[75] flex flex-col justify-center bg-paper px-[clamp(1rem,5vw,5rem)] transition-[opacity,visibility] duration-500 lg:hidden ${
           menu ? "visible opacity-100" : "invisible opacity-0"
         }`}

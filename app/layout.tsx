@@ -107,6 +107,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="el" className={`${garamond.variable} ${manrope.variable}`}>
       <body className="grain antialiased">
         <JsonLd data={jsonLd} />
+
+        {/*
+          First thing in the tab order. Visually hidden until focused, so
+          keyboard and screen-reader users can jump past the navigation
+          instead of tabbing through it on every page.
+        */}
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-accent focus:px-5 focus:py-3 focus:font-semibold focus:text-paper"
+        >
+          Μετάβαση στο περιεχόμενο
+        </a>
         <Preloader />
         <ScrollProgress />
         <Cursor />

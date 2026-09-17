@@ -1,0 +1,28 @@
+# Netlify / Cloudflare Pages header syntax.
+# Mirrors vercel.json — keep the two in step, whichever host you deploy to.
+# (Vercel ignores this file; Netlify and Cloudflare Pages ignore vercel.json.)
+
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://formsubmit.co; frame-src https://www.google.com; form-action 'self' https://formsubmit.co; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; upgrade-insecure-requests
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: accelerometer=(), ambient-light-sensor=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), usb=(), xr-spatial-tracking=()
+  Cross-Origin-Opener-Policy: same-origin
+  X-DNS-Prefetch-Control: off
+  # 0, not "1; mode=block": the legacy auditor was exploitable and is gone
+  # from every current browser. CSP is what actually stops injection here.
+  X-XSS-Protection: 0
+  X-Permitted-Cross-Domain-Policies: none
+  X-Download-Options: noopen
+  Cross-Origin-Resource-Policy: same-origin
+  Origin-Agent-Cluster: ?1
+  # Cross-Origin-Embedder-Policy is deliberately NOT set: require-corp
+  # would block the Google Maps iframe on the contact page.
+
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/images/*
+  Cache-Control: public, max-age=604800, must-revalidate

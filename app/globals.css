@@ -6,10 +6,13 @@
   --color-paper-2: #fdfcfa;
   --color-ink: #10161a;
   --color-ink-2: #4a5560;
-  --color-ink-3: #8b949b;
+  /* 5.07:1 on paper, 5.39:1 on paper-2. The previous #8b949b measured 2.83:1. */
+  --color-ink-3: #606a72;
   --color-line: #e2ded4;
   --color-accent: #145e58;
   --color-accent-2: #2a9d8f;
+  /* 5.9:1 on paper; #dc2626 came in at 4.43:1, just under the line. */
+  --color-destructive: #b91c1c;
   --color-skin-1: #f2d9c9;
   --color-skin-2: #c98c6e;
 
@@ -56,8 +59,8 @@
 
   /* Greek copy is uppercase-heavy in eyebrows; keep tracking readable */
   .eyebrow {
-    font-size: 0.6875rem;
-    letter-spacing: 0.18em;
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     font-weight: 600;
     color: var(--color-ink-3);

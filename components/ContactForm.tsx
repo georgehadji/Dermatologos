@@ -270,13 +270,13 @@ export default function ContactForm() {
         </button>
 
         {status === "error" && (
-          <p className="text-sm text-[var(--color-destructive,#dc2626)]" role="alert">
+          <p className="text-sm text-destructive" role="alert">
             Η αποστολή απέτυχε. Δοκιμάστε ξανά ή καλέστε μας τηλεφωνικά.
           </p>
         )}
 
         {errors.form && (
-          <p className="text-sm text-[var(--color-destructive,#dc2626)]" role="alert">
+          <p className="text-sm text-destructive" role="alert">
             {errors.form}
           </p>
         )}
@@ -288,7 +288,7 @@ export default function ContactForm() {
 const inputClass =
   "peer w-full border-0 border-b border-line bg-transparent pb-3 pt-6 text-ink outline-none transition-colors duration-300 focus:border-accent";
 
-const errClass = "mt-2 text-xs font-medium text-[var(--color-destructive,#dc2626)]";
+const errClass = "mt-2 text-xs font-medium text-destructive";
 
 /** Floating label that lifts on focus or when the control holds a value. */
 function Field({

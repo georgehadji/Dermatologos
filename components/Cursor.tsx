@@ -47,7 +47,10 @@ export default function Cursor() {
 
   if (!active) return null;
 
-  const ringSize = mode === "lens" ? 120 : mode === "link" || mode === "call" ? 56 : 32;
+  // The ring is drawn at its largest size and scaled down, so the transition
+  // is transform-only. vector-effect keeps the stroke 1px at every scale.
+  const RING_MAX = 120;
+  const ringSize = mode === "lens" ? RING_MAX : mode === "link" || mode === "call" ? 56 : 32;
 
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-[70] hidden md:block">
@@ -58,17 +61,30 @@ export default function Cursor() {
       />
       <div
         ref={ring}
-        className="absolute grid place-items-center rounded-full border transition-[width,height,background-color,border-color] duration-[450ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
+        className="absolute grid place-items-center"
         style={{
-          width: ringSize,
-          height: ringSize,
-          marginLeft: -ringSize / 2,
-          marginTop: -ringSize / 2,
-          borderColor: mode ? "var(--color-accent)" : "var(--color-ink-3)",
-          backgroundColor: mode === "lens" ? "transparent" : "transparent",
-          borderWidth: mode === "lens" ? 1 : 1,
+          width: RING_MAX,
+          height: RING_MAX,
+          marginLeft: -RING_MAX / 2,
+          marginTop: -RING_MAX / 2,
         }}
       >
+        <svg
+          viewBox={`0 0 ${RING_MAX} ${RING_MAX}`}
+          className="absolute inset-0 size-full transition-transform duration-[450ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
+          style={{ transform: `scale(${ringSize / RING_MAX})` }}
+        >
+          <circle
+            cx={RING_MAX / 2}
+            cy={RING_MAX / 2}
+            r={RING_MAX / 2 - 1}
+            fill="none"
+            strokeWidth="1"
+            vectorEffect="non-scaling-stroke"
+            className="transition-[stroke] duration-300"
+            stroke={mode ? "var(--color-accent)" : "var(--color-ink-3)"}
+          />
+        </svg>
         {label && (
           <span className="whitespace-nowrap text-[10px] font-semibold uppercase tracking-[0.16em] text-accent">
             {label}

@@ -74,7 +74,7 @@ export default function Nav() {
             <span className="display text-xl tracking-tight md:text-2xl">
               Αθ. Χρυσοσπάθης
             </span>
-            <span className="mt-1 text-[10px] font-medium uppercase tracking-[0.18em] text-ink-3">
+            <span className="mt-1 text-xs font-medium uppercase tracking-[0.16em] text-ink-3">
               Δερματολόγος · Αφροδισιολόγος
             </span>
           </Link>
@@ -86,7 +86,7 @@ export default function Nav() {
                 href={item.href}
                 data-cursor="link"
                 aria-current={pathname === item.href ? "page" : undefined}
-                className="group relative py-1 text-sm font-medium text-ink-2 transition-colors hover:text-ink aria-[current=page]:text-accent"
+                className="group relative py-2 text-sm font-medium text-ink-2 transition-colors hover:text-ink aria-[current=page]:text-accent"
               >
                 {item.label}
                 <span className="absolute inset-x-0 -bottom-0.5 h-px origin-right scale-x-0 bg-accent transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:origin-left group-hover:scale-x-100" />
@@ -122,7 +122,7 @@ export default function Nav() {
               aria-expanded={menu}
               aria-controls="mobile-menu"
               aria-label={menu ? "Κλείσιμο μενού" : "Άνοιγμα μενού"}
-              className="grid size-10 cursor-pointer place-items-center lg:hidden"
+              className="grid size-11 cursor-pointer place-items-center lg:hidden"
             >
               <span className="relative block h-3 w-6">
                 <span className={`absolute left-0 h-px w-full bg-ink transition-all duration-400 ${menu ? "top-1.5 rotate-45" : "top-0"}`} />

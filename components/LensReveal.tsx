@@ -89,23 +89,36 @@ export default function LensReveal({
         style={{ maskImage: mask, WebkitMaskImage: mask }}
       />
 
-      {/* Lens barrel: ring, inner highlight and crosshair. */}
+      {/*
+        Lens barrel: ring, accent halo and crosshair. The wrapper is laid out
+        once at full size; only the SVG inside scales, so dilating the lens is
+        a transform + opacity transition and never touches layout.
+      */}
       <div
         aria-hidden
-        className="pointer-events-none absolute rounded-full border border-paper/70 transition-[width,height,opacity] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]"
+        className="pointer-events-none absolute"
         style={{
-          width: on ? radius * 2 : 0,
-          height: on ? radius * 2 : 0,
+          width: radius * 2,
+          height: radius * 2,
           left: "var(--lx, 50%)",
           top: "var(--ly, 50%)",
           transform: "translate(-50%, -50%)",
-          opacity: on ? 1 : 0,
-          boxShadow:
-            "0 0 0 1px rgba(20,94,88,0.55), 0 18px 50px -12px rgba(16,22,26,0.45), inset 0 0 40px rgba(255,255,255,0.14)",
         }}
       >
-        <span className="absolute left-1/2 top-1/2 h-4 w-px -translate-x-1/2 -translate-y-1/2 bg-paper/60" />
-        <span className="absolute left-1/2 top-1/2 h-px w-4 -translate-x-1/2 -translate-y-1/2 bg-paper/60" />
+        <svg
+          viewBox="0 0 100 100"
+          className="size-full transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]"
+          style={{
+            transform: `scale(${on ? 1 : 0})`,
+            opacity: on ? 1 : 0,
+            filter: "drop-shadow(0 18px 30px rgba(16,22,26,0.35))",
+          }}
+        >
+          <circle cx="50" cy="50" r="49" fill="none" stroke="rgba(20,94,88,0.55)" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+          <circle cx="50" cy="50" r="48" fill="none" stroke="rgba(247,245,240,0.75)" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+          <line x1="50" y1="43" x2="50" y2="57" stroke="rgba(247,245,240,0.6)" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+          <line x1="43" y1="50" x2="57" y2="50" stroke="rgba(247,245,240,0.6)" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+        </svg>
       </div>
     </div>
   );

@@ -1,11 +1,12 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { SIMPLEX_3D, useWebGLReady } from "@/lib/webgl";
 
-const COUNT = 4200;
+// 3000 is the mobile-safe baseline; raise only after profiling on a real phone.
+const COUNT = 3000;
 
 const vertex = /* glsl */ `
 precision highp float;
@@ -87,6 +88,10 @@ function Points({ energy }: { energy: React.RefObject<number> }) {
     g.setAttribute("aScale", new THREE.BufferAttribute(scale, 1));
     return g;
   }, []);
+
+  // The geometry is created here, not by R3F, so R3F will not dispose it.
+  // Without this the position buffers stay in VRAM after the section unmounts.
+  useEffect(() => () => geometry.dispose(), [geometry]);
 
   const uniforms = useMemo(
     () => ({

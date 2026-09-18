@@ -1,5 +1,4 @@
 import Reveal from "@/components/Reveal";
-import SplitLines from "@/components/SplitLines";
 import { doctor } from "@/lib/site";
 
 /**
@@ -23,17 +22,15 @@ export default function Reviews() {
 
   return (
     <section className="section-y">
-      <div className="shell grid gap-14 md:grid-cols-12">
-        <div className="md:col-span-5">
-          <p className="eyebrow">Διαπιστεύσεις</p>
-          <SplitLines as="h2" className="display mt-5 text-[clamp(2.25rem,6vw,4rem)]">
-            Πού στηρίζεται
-            <br />
-            η εμπιστοσύνη
-          </SplitLines>
-        </div>
+      <div className="shell">
+        {/*
+          No display heading here. The record speaks plainly enough on its own,
+          and a headline about trust is the site claiming a quality rather than
+          showing it. The eyebrow keeps the section labelled.
+        */}
+        <p className="eyebrow">Διαπιστεύσεις</p>
 
-        <Reveal className="md:col-span-7 md:pl-8">
+        <Reveal className="mt-10">
           <dl className="border-t border-line">
             {record.map((row) => (
               <div

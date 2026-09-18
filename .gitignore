@@ -9,3 +9,6 @@ next-env.d.ts
 
 # Vercel CLI link metadata (project/org ids), machine-specific
 .vercel/
+
+.vercel
+.env*

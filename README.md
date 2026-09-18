@@ -167,7 +167,7 @@ Set the real domain in `SITE_URL` (`lib/site.ts`) and `metadataBase`
 
 ## Deploy
 
-Vercel picks up `vercel.json` as-is. For Netlify or Cloudflare Pages, build
+Vercel deploys it as a plain static site (`framework: null` in `vercel.json`) and serves `out/` as-is; the Next.js preset insists on a `.next` manifest even for a static export. `scripts/postbuild-og.mjs` runs after every build and renames the Open Graph cards to `.png`, because a static host cannot infer a Content-Type for the extension-less files `next/og` emits. For Netlify or Cloudflare Pages, build
 `out/` and let `public/_headers` apply. For GitHub Pages you also need
 `basePath` and `assetPrefix` in `next.config.ts`, since the site would be served
 from a subpath.

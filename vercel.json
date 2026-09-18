@@ -82,12 +82,8 @@
       ]
     },
     {
-      "source": "/opengraph-image",
+      "source": "/opengraph-image.png",
       "headers": [
-        {
-          "key": "Content-Type",
-          "value": "image/png"
-        },
         {
           "key": "Cache-Control",
           "value": "public, max-age=86400, must-revalidate"
@@ -95,12 +91,8 @@
       ]
     },
     {
-      "source": "/patheseis/:slug/opengraph-image",
+      "source": "/patheseis/:slug/opengraph-image.png",
       "headers": [
-        {
-          "key": "Content-Type",
-          "value": "image/png"
-        },
         {
           "key": "Cache-Control",
           "value": "public, max-age=86400, must-revalidate"
@@ -108,12 +100,8 @@
       ]
     },
     {
-      "source": "/arthra/:slug/opengraph-image",
+      "source": "/arthra/:slug/opengraph-image.png",
       "headers": [
-        {
-          "key": "Content-Type",
-          "value": "image/png"
-        },
         {
           "key": "Cache-Control",
           "value": "public, max-age=86400, must-revalidate"

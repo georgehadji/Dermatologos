@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react";
 import { gsap, ScrollTrigger, prefersReducedMotion } from "@/lib/gsap";
-import SplitLines from "@/components/SplitLines";
 import { visitSteps } from "@/lib/site";
 
 export default function VisitSteps() {
@@ -46,13 +45,13 @@ export default function VisitSteps() {
     <section id="episkepsi" ref={root} className="section-y bg-blush">
       <div className="shell grid gap-14 md:grid-cols-12">
         <div className="md:col-span-4">
-          <p className="eyebrow">Η επίσκεψη</p>
-          <SplitLines as="h2" className="display mt-5 text-[clamp(2.25rem,6vw,4rem)]">
-            Πώς γίνεται
-            <br />
-            μια επίσκεψη
-          </SplitLines>
-          <p className="mt-7 max-w-sm text-ink-2">
+          {/*
+            The eyebrow carries the heading role now that the display headline
+            is gone. The four steps below are h3s, so something has to sit above
+            them or the outline skips a level.
+          */}
+          <h2 className="eyebrow">Η επίσκεψη</h2>
+          <p className="mt-6 max-w-sm text-ink-2">
             Χωρίς ραντεβού, με σταθερό απογευματινό ωράριο. Τέσσερα βήματα, από την
             πόρτα μέχρι την επανεκτίμηση.
           </p>

@@ -33,7 +33,7 @@ export default function ConditionsGrid({
       onPointerEnter={() => (energy.current = 1)}
       onPointerLeave={() => (energy.current = 0)}
     >
-      <ParticleField active={energy} className="pointer-events-none absolute inset-0 -z-10 opacity-70" />
+      <ParticleField active={energy} className="pointer-events-none absolute inset-0 -z-10 opacity-55" />
 
       <div className="shell">
         <div className="flex flex-wrap items-end justify-between gap-6">

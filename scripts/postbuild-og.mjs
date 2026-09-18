@@ -36,12 +36,13 @@ function walk(dir) {
       continue;
     }
 
-    if (entry.name.endsWith(".html")) {
+    if (entry.name.endsWith(".html") || entry.name.endsWith(".txt")) {
       const before = readFileSync(full, "utf8");
       // `/opengraph-image` optionally followed by `?hash`, and NOT already
-      // followed by `.png` — the lookahead keeps the rewrite idempotent.
+      // followed by `.png` — the lookahead keeps the rewrite idempotent. The
+      // backslash case is the escaped quote inside the inline RSC payload.
       const after = before.replace(
-        /\/opengraph-image(\?[0-9a-f]+)?(?=["'&\s<])/g,
+        /\/opengraph-image(\?[0-9a-f]+)?(?=["'&\s<\x5c])/g,
         `/${NAME}.png`
       );
       if (after !== before) {
@@ -54,7 +55,7 @@ function walk(dir) {
 
 walk(OUT);
 
-console.log(`postbuild-og: ${renamed} card(s) renamed to .png, ${rewritten} HTML file(s) updated`);
+console.log(`postbuild-og: ${renamed} card(s) renamed to .png, ${rewritten} HTML/RSC file(s) updated`);
 
 if (renamed === 0 && rewritten === 0) {
   // Not fatal — but if Next changes how it exports metadata routes, this is

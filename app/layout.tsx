@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { EB_Garamond, Manrope } from "next/font/google";
-import { doctor } from "@/lib/site";
+import { SITE_URL, doctor } from "@/lib/site";
 import SmoothScroll from "@/components/SmoothScroll";
 import Cursor from "@/components/Cursor";
 import Preloader from "@/components/Preloader";
@@ -29,7 +29,7 @@ const description = `Δερματολογικό ιατρείο στην Περα
 )}. Καθημερινά ${doctor.hours.open}–${doctor.hours.close}, ${doctor.hours.note}.`;
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://georgehadji.github.io/Dermatologos"),
+  metadataBase: new URL(SITE_URL),
   title,
   description,
   keywords: [

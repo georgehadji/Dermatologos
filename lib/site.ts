@@ -6,10 +6,19 @@
  */
 
 /**
- * Canonical origin. Change this once at deploy time — metadata, sitemap,
- * robots and every JSON-LD block read from here.
+ * Canonical origin — metadata, sitemap, robots and every JSON-LD block read
+ * from here.
+ *
+ * Resolved at build time, in order: an explicit NEXT_PUBLIC_SITE_URL; the
+ * Vercel project's production URL (set on every Vercel build, and it becomes
+ * the custom domain the moment one is attached); then a local fallback. Only
+ * server-rendered code consumes this — on the client it is never read.
  */
-export const SITE_URL = "https://chrysospathis-dermatologos.gr";
+export const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "https://chrysospathis-dermatologos.gr");
 
 export const doctor = {
   firstName: "Αθανάσιος",

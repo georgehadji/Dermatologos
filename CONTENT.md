@@ -16,8 +16,17 @@ Taken directly from the practice's public listing on vrisko.gr
 | Address | Φιλίππου 11 & Ανθέων, Περαία 57019, Θεσσαλονίκης |
 | Phone | 2392023430 |
 | Hours | «Καθημερινά χωρίς ραντεβού από 18:00 έως 20:30» |
+| Appointments | Both: by phone **or** walk-in — confirmed by the client, 2026-09-18 |
 | Rating | 5.0, from 1 rating |
 | Service areas | The ten titles in `conditions` |
+
+## Confirmed since publication
+
+**Appointments (2026-09-18).** The directory listing reads «χωρίς ραντεβού», which
+the site originally presented as walk-in only. The client confirmed the practice
+takes booked appointments by phone as well. Every mention now reads «με ή χωρίς
+ραντεβού» and `doctor.hours.note` carries that wording, so the correction
+propagates from one place.
 
 ## Needs confirmation before launch
 
@@ -59,7 +68,7 @@ verified; the description of how the practice operates is not.
 ### 5. Photography
 
 Every file in `public/images/` is a generated placeholder. `PROMPTS.md` has a
-prompt for each. `dermatologos-athanasios-chrysospathis.png` stands in for a real, named person and is
+prompt for each. `dermatologos-athanasios-chrysospathis.webp` stands in for a real, named person and is
 presented to patients as him.
 
 ### 6. Missing from the listing, currently absent from the site

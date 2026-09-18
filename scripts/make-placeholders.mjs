@@ -1,3 +1,9 @@
+/*
+ * NOTE: the real photographs ship as .webp (see PROMPTS.md). This script still
+ * writes .png, because it builds the files byte by byte from the standard
+ * library and has no encoder. Regenerating placeholders therefore also means
+ * reverting the extensions in lib/site.ts and DoctorIntro.tsx.
+ */
 /**
  * Generates stand-in artwork for public/images so the site builds and renders
  * before the real photography exists. Replace each file with the AI-generated

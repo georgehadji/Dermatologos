@@ -10,8 +10,8 @@ export default function DoctorIntro({ full = false }: { full?: boolean }) {
       <div className="shell grid gap-16 md:grid-cols-12 md:gap-12">
         <div className="md:col-span-5">
           <LensReveal
-            src="/images/dermatologos-athanasios-chrysospathis.png"
-            detailSrc="/images/dermatologos-athanasios-chrysospathis.png"
+            src="/images/dermatologos-athanasios-chrysospathis.webp"
+            detailSrc="/images/dermatologos-athanasios-chrysospathis.webp"
             alt={`${doctor.name}, ${doctor.specialty}`}
             className="aspect-[4/5] w-full rounded-sm"
             radius={128}
@@ -49,10 +49,10 @@ export default function DoctorIntro({ full = false }: { full?: boolean }) {
                   γενικό ιστορικό.
                 </p>
                 <p>
-                  Το ιατρείο δέχεται χωρίς ραντεβού, καθημερινά τις απογευματινές ώρες.
-                  Η επιλογή αυτή εξυπηρετεί όσους δεν μπορούν να προγραμματίσουν
-                  επίσκεψη μέρες νωρίτερα, ιδίως σε οξέα περιστατικά όπως ένα
-                  εξάνθημα που εμφανίστηκε ξαφνικά.
+                  Το ιατρείο δέχεται καθημερινά τις απογευματινές ώρες, με ή χωρίς
+                  ραντεβού. Όποιος θέλει προγραμματίζει τηλεφωνικά· όποιος δεν
+                  προλαβαίνει, έρχεται απευθείας. Η δεύτερη επιλογή μετράει σε οξέα
+                  περιστατικά, όπως ένα εξάνθημα που εμφανίστηκε ξαφνικά.
                 </p>
               </>
             )}
@@ -60,7 +60,7 @@ export default function DoctorIntro({ full = false }: { full?: boolean }) {
 
           <Reveal as="ul" stagger className="mt-12 grid grid-cols-2 gap-px border border-line bg-line sm:grid-cols-3">
             <Stat value={String(conditions.length)} label="Πεδία κλινικής δερματολογίας" />
-            <Stat value={`${doctor.hours.open}–${doctor.hours.close}`} label="Καθημερινά, χωρίς ραντεβού" />
+            <Stat value={`${doctor.hours.open}–${doctor.hours.close}`} label="Καθημερινά, με ή χωρίς ραντεβού" />
             <Stat
               value={doctor.rating.value.toFixed(1)}
               label={`Αξιολόγηση (${doctor.rating.count})`}

@@ -37,7 +37,7 @@ export default function Footer() {
         {/* ——— Action band: the one thing a visitor at the bottom still needs ——— */}
         <div className="grid gap-10 border-b border-paper/15 pb-12 md:grid-cols-12 md:items-end md:gap-8">
           <div className="md:col-span-7">
-            <p className="eyebrow !text-accent-2">Χωρίς ραντεβού</p>
+            <p className="eyebrow !text-accent-2">Με ή χωρίς ραντεβού</p>
             <p className="display mt-4 text-[clamp(1.75rem,4vw,2.75rem)] leading-[1.12]">
               Το ιατρείο δέχεται {doctor.hours.label.toLowerCase()}
               <br />

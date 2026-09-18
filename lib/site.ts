@@ -76,7 +76,7 @@ export const doctor = {
     label: "Καθημερινά",
     open: "18:00",
     close: "20:30",
-    note: "χωρίς ραντεβού",
+    note: "με ή χωρίς ραντεβού",
     /**
      * The listing says "Καθημερινά", which in Greek business usage normally means
      * Mon–Fri but literally reads "daily". We show the original wording and treat
@@ -338,8 +338,8 @@ export const conditions: readonly Condition[] = [
 export const visitSteps = [
   {
     n: "01",
-    title: "Έρχεστε χωρίς ραντεβού",
-    text: "Το ιατρείο λειτουργεί καθημερινά από τις 18:00 έως τις 20:30. Δεν χρειάζεται προγραμματισμός.",
+    title: "Έρχεστε με ή χωρίς ραντεβού",
+    text: "Το ιατρείο λειτουργεί καθημερινά από τις 18:00 έως τις 20:30. Μπορείτε να κλείσετε ραντεβού τηλεφωνικά ή να προσέλθετε απευθείας εντός του ωραρίου.",
   },
   {
     n: "02",
@@ -360,12 +360,12 @@ export const visitSteps = [
 
 /** Gallery slides. The image files are produced from the prompts in PROMPTS.md. */
 export const clinicImages = [
-  { src: "/images/iatreio-eisodos-peraia.png", alt: "Η είσοδος του ιατρείου στην Περαία", caption: "Η είσοδος" },
-  { src: "/images/iatreio-ypodochi.png", alt: "Ο χώρος υποδοχής του ιατρείου", caption: "Υποδοχή" },
-  { src: "/images/iatreio-anamoni.png", alt: "Η αίθουσα αναμονής", caption: "Αναμονή" },
-  { src: "/images/iatreio-exetastirio.png", alt: "Το εξεταστήριο", caption: "Εξεταστήριο" },
-  { src: "/images/dermatoskopio-macro.png", alt: "Δερματοσκόπιο σε κοντινή λήψη", caption: "Δερματοσκόπηση" },
-  { src: "/images/iatreio-diadromos.png", alt: "Διάδρομος του ιατρείου", caption: "Λεπτομέρεια" },
+  { src: "/images/iatreio-eisodos-peraia.webp", alt: "Η είσοδος του ιατρείου στην Περαία", caption: "Η είσοδος" },
+  { src: "/images/iatreio-ypodochi.webp", alt: "Ο χώρος υποδοχής του ιατρείου", caption: "Υποδοχή" },
+  { src: "/images/iatreio-anamoni.webp", alt: "Η αίθουσα αναμονής", caption: "Αναμονή" },
+  { src: "/images/iatreio-exetastirio.webp", alt: "Το εξεταστήριο", caption: "Εξεταστήριο" },
+  { src: "/images/dermatoskopio-macro.webp", alt: "Δερματοσκόπιο σε κοντινή λήψη", caption: "Δερματοσκόπηση" },
+  { src: "/images/iatreio-diadromos.webp", alt: "Διάδρομος του ιατρείου", caption: "Λεπτομέρεια" },
 ] as const;
 
 export const mapsEmbed = `https://www.google.com/maps?q=${encodeURIComponent(

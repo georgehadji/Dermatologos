@@ -33,7 +33,7 @@ export default function IatrosPage() {
               <em className="not-italic text-accent">που εξηγείται</em>
             </>
           }
-          lead="Κλινική δερματολογία με νοσοκομειακό υπόβαθρο, σε ιατρείο που δέχεται χωρίς ραντεβού."
+          lead="Κλινική δερματολογία με νοσοκομειακό υπόβαθρο, σε ιατρείο που δέχεται με ή χωρίς ραντεβού."
           crumbs={crumbs}
         />
         <DoctorIntro full />

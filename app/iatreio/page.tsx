@@ -33,7 +33,6 @@ export default function IatreioPage() {
               <em className="not-italic text-accent">ιατρείο</em>
             </>
           }
-          lead="Ένας χώρος σχεδιασμένος για να είναι ήσυχος και ευανάγνωστος: καθαρός φωτισμός, λίγα ερεθίσματα, σαφής διαδρομή από την υποδοχή στο εξεταστήριο."
           crumbs={crumbs}
         />
 

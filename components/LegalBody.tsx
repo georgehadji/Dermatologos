@@ -18,7 +18,7 @@ export default function LegalBody({ sections }: { sections: readonly LegalSectio
               <li key={s.h}>
                 <a
                   href={`#${slugify(s.h)}`}
-                  className="text-sm text-ink-2 transition-colors duration-300 hover:text-accent"
+                  className="text-sm text-ink-2 transition-colors t-quick hover:text-accent"
                 >
                   {s.h}
                 </a>

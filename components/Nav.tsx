@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { gsap } from "@/lib/gsap";
+import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { doctor, nav } from "@/lib/site";
 import { getOpenState, type OpenState } from "@/lib/hours";
 import Magnetic from "./Magnetic";
@@ -27,24 +27,53 @@ export default function Nav() {
 
   useEffect(() => {
     let last = window.scrollY;
-    const onScroll = () => {
+    let frame = 0;
+    // Reduced motion keeps the header put; only the stuck styling still applies.
+    const reduced = prefersReducedMotion();
+
+    const apply = () => {
       const y = window.scrollY;
       const goingDown = y > last && y > 160;
-      gsap.to(bar.current, {
-        yPercent: goingDown ? -100 : 0,
-        duration: 0.5,
-        ease: "expo.out",
-        overwrite: true,
-      });
+      if (!reduced) {
+        gsap.to(bar.current, {
+          yPercent: goingDown ? -100 : 0,
+          duration: 0.5,
+          ease: "expo.out",
+          overwrite: true,
+        });
+      }
       bar.current?.classList.toggle("is-stuck", y > 40);
       last = y;
     };
+
+    // One tween per frame, not one per scroll event.
+    const onScroll = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(apply);
+    };
+
+    apply();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(frame);
+    };
   }, []);
 
   useEffect(() => {
     document.body.style.overflow = menu ? "hidden" : "";
+
+    /*
+     * Everything behind the overlay goes inert while it is open. Without this,
+     * tabbing past the last link in the panel walked focus into page content
+     * hidden underneath it — the ring lands somewhere the user cannot see.
+     */
+    const behind = [
+      document.getElementById("main"),
+      document.querySelector("footer"),
+    ].filter(Boolean) as HTMLElement[];
+    behind.forEach((el) => el.toggleAttribute("inert", menu));
+
     if (!menu) return;
 
     // Escape closes the overlay and focus returns to the button that opened
@@ -59,6 +88,7 @@ export default function Nav() {
 
     return () => {
       document.body.style.overflow = "";
+      behind.forEach((el) => el.removeAttribute("inert"));
       document.removeEventListener("keydown", onKey);
     };
   }, [menu]);
@@ -67,7 +97,7 @@ export default function Nav() {
     <>
       <header
         ref={bar}
-        className="fixed inset-x-0 top-0 z-[80] transition-colors duration-500 [&.is-stuck]:bg-paper/85 [&.is-stuck]:backdrop-blur-xl"
+        className="fixed inset-x-0 top-0 z-[80] transition-colors t-quick [&.is-stuck]:bg-paper/85 [&.is-stuck]:backdrop-blur-xl"
       >
         <div className="shell flex items-center justify-between gap-6 py-5">
           <Link href="/" data-cursor="link" className="group flex flex-col leading-none">
@@ -89,7 +119,7 @@ export default function Nav() {
                 className="group relative py-2 text-sm font-medium text-ink-2 transition-colors hover:text-ink aria-[current=page]:text-accent"
               >
                 {item.label}
-                <span className="absolute inset-x-0 -bottom-0.5 h-px origin-right scale-x-0 bg-accent transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:origin-left group-hover:scale-x-100" />
+                <span className="absolute inset-x-0 -bottom-0.5 h-px origin-right scale-x-0 bg-accent transition-transform t-slow group-hover:origin-left group-hover:scale-x-100" />
               </Link>
             ))}
           </nav>
@@ -117,7 +147,7 @@ export default function Nav() {
                 href={`tel:${doctor.phone}`}
                 data-cursor="call"
                 data-cursor-label="Κλήση"
-                className="hidden rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-paper transition-colors duration-300 hover:bg-ink md:inline-block"
+                className="press hidden rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-paper transition-colors t-quick hover:bg-ink md:inline-block"
               >
                 {doctor.phoneDisplay}
               </a>
@@ -132,8 +162,8 @@ export default function Nav() {
               className="grid size-11 cursor-pointer place-items-center lg:hidden"
             >
               <span className="relative block h-3 w-6">
-                <span className={`absolute left-0 h-px w-full bg-ink transition-all duration-400 ${menu ? "top-1.5 rotate-45" : "top-0"}`} />
-                <span className={`absolute left-0 h-px w-full bg-ink transition-all duration-400 ${menu ? "top-1.5 -rotate-45" : "top-3"}`} />
+                <span className={`absolute left-0 h-px w-full bg-ink transition-all t-base ${menu ? "top-1.5 rotate-45" : "top-0"}`} />
+                <span className={`absolute left-0 h-px w-full bg-ink transition-all t-base ${menu ? "top-1.5 -rotate-45" : "top-3"}`} />
               </span>
             </button>
           </div>
@@ -145,16 +175,17 @@ export default function Nav() {
         id="mobile-menu"
         aria-hidden={!menu}
         inert={!menu}
-        className={`fixed inset-0 z-[75] flex flex-col justify-center bg-paper px-[clamp(1rem,5vw,5rem)] transition-[opacity,visibility] duration-500 lg:hidden ${
+        className={`fixed inset-0 z-[75] flex flex-col justify-center bg-paper px-[clamp(1rem,5vw,5rem)] transition-[opacity,visibility] t-slow lg:hidden ${
           menu ? "visible opacity-100" : "invisible opacity-0"
         }`}
       >
+        <nav aria-label="Κύριο μενού">
         <ul className="space-y-2">
           {nav.map((item, i) => (
             <li key={item.href} className="overflow-hidden">
               <Link
                 href={item.href}
-                className="display block py-2 text-[clamp(2rem,10vw,3.5rem)] transition-[color,transform] duration-500"
+                className="display block py-2 text-[clamp(2rem,10vw,3.5rem)] transition-[color,transform] t-slow"
                 style={{
                   transform: menu ? "translateY(0)" : "translateY(110%)",
                   transitionDelay: `${menu ? 120 + i * 60 : 0}ms`,
@@ -165,9 +196,10 @@ export default function Nav() {
             </li>
           ))}
         </ul>
+        </nav>
         <a
           href={`tel:${doctor.phone}`}
-          className="mt-10 inline-block self-start rounded-full bg-accent px-7 py-3.5 font-semibold text-paper"
+          className="press mt-10 inline-block self-start rounded-full bg-accent px-7 py-3.5 font-semibold text-paper"
         >
           {doctor.phoneDisplay}
         </a>

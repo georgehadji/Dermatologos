@@ -2,7 +2,11 @@
 
 import Link from "next/link";
 import { useRef } from "react";
-import ParticleField from "@/components/webgl/ParticleField";
+import dynamic from "next/dynamic";
+
+const ParticleField = dynamic(() => import("@/components/webgl/ParticleField"), {
+  ssr: false,
+});
 import Reveal from "@/components/Reveal";
 import SplitLines from "@/components/SplitLines";
 import { conditions } from "@/lib/site";
@@ -52,13 +56,13 @@ export default function ConditionsGrid({
                 href={`/patheseis/${c.slug}`}
                 data-cursor="link"
                 data-cursor-label="Άνοιγμα"
-                className="group grid grid-cols-12 items-baseline gap-x-6 gap-y-3 border-b border-line py-7 transition-colors duration-500 hover:bg-paper-2/60 md:py-8"
+                className="group grid grid-cols-12 items-baseline gap-x-6 gap-y-3 border-b border-line py-7 transition-colors t-quick hover:bg-paper-2/60 md:py-8"
               >
-                <span className="col-span-2 font-sans text-xs tabular-nums text-ink-3 transition-colors duration-500 group-hover:text-accent md:col-span-1">
+                <span className="col-span-2 font-sans text-xs tabular-nums text-ink-3 transition-colors t-quick group-hover:text-accent md:col-span-1">
                   {c.n}
                 </span>
 
-                <span className="display col-span-10 text-[clamp(1.5rem,3.2vw,2.5rem)] transition-transform duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-2 md:col-span-4">
+                <span className="display col-span-10 text-[clamp(1.5rem,3.2vw,2.5rem)] transition-transform t-slow group-hover:translate-x-2 md:col-span-4">
                   {c.title}
                 </span>
 
@@ -67,7 +71,7 @@ export default function ConditionsGrid({
                 </span>
 
                 <span className="col-span-12 hidden justify-end md:col-span-1 md:flex">
-                  <span className="grid size-9 place-items-center rounded-full border border-line transition-[background-color,border-color,transform] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1 group-hover:border-accent group-hover:bg-accent">
+                  <span className="grid size-9 place-items-center rounded-full border border-line transition-[background-color,border-color,transform] t-slow group-hover:translate-x-1 group-hover:border-accent group-hover:bg-accent">
                     <ArrowRightIcon className="size-4 text-ink transition-colors group-hover:text-paper" />
                   </span>
                 </span>
@@ -80,7 +84,7 @@ export default function ConditionsGrid({
           <Link
             href="/patheseis"
             data-cursor="link"
-            className="mt-10 inline-flex items-center gap-3 text-sm font-semibold text-accent underline underline-offset-4"
+            className="mt-10 inline-flex items-center gap-3 text-sm font-semibold text-accent link-line-on link-line"
           >
             Όλες οι παθήσεις
           </Link>

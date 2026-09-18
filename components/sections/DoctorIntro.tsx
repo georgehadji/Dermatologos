@@ -10,8 +10,8 @@ export default function DoctorIntro({ full = false }: { full?: boolean }) {
       <div className="shell grid gap-16 md:grid-cols-12 md:gap-12">
         <div className="md:col-span-5">
           <LensReveal
-            src="/images/doctor-portrait.png"
-            detailSrc="/images/doctor-portrait.png"
+            src="/images/dermatologos-athanasios-chrysospathis.png"
+            detailSrc="/images/dermatologos-athanasios-chrysospathis.png"
             alt={`${doctor.name}, ${doctor.specialty}`}
             className="aspect-[4/5] w-full rounded-sm"
             radius={128}
@@ -71,7 +71,7 @@ export default function DoctorIntro({ full = false }: { full?: boolean }) {
             <Link
               href="/iatros"
               data-cursor="link"
-              className="mt-10 inline-flex items-center gap-3 text-sm font-semibold text-accent underline underline-offset-4"
+              className="mt-10 inline-flex items-center gap-3 text-sm font-semibold text-accent link-line-on link-line"
             >
               Περισσότερα για τον ιατρό
             </Link>

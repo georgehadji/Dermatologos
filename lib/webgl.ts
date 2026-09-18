@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { prefersReducedMotion } from "./gsap";
 
 /** Cheap capability probe; the context is discarded immediately. */
@@ -31,6 +31,44 @@ export function useWebGLReady(): boolean {
   }, []);
 
   return ready;
+}
+
+/**
+ * True while the element is anywhere near the viewport. Three canvases running
+ * `requestAnimationFrame` for the whole session is a real battery cost on a
+ * phone; this lets each one park its loop while it is scrolled away.
+ */
+export function useInView<T extends HTMLElement>(rootMargin = "150px") {
+  const ref = useRef<T>(null);
+  // Defaults to true so the canvas still renders if IntersectionObserver is
+  // missing: the failure mode is "animates anyway", never "blank panel".
+  const [inView, setInView] = useState(true);
+  /*
+   * Sticky. Creating a WebGL context and compiling a shader is the expensive
+   * part and it is not worth repeating, so a canvas mounts the first time it
+   * comes near the viewport and then stays mounted — `inView` alone only
+   * parks the animation loop, it never saved the mount cost.
+   */
+  const [seen, setSeen] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === "undefined") {
+      setSeen(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        setInView(entry.isIntersecting);
+        if (entry.isIntersecting) setSeen(true);
+      },
+      { rootMargin }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [rootMargin]);
+
+  return { ref, inView, seen };
 }
 
 /** Ashima simplex noise, used by several shaders in components/webgl. */

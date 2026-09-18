@@ -23,7 +23,7 @@ export default function ArticleTeasers({ limit }: { limit?: number }) {
             <Link
               href="/arthra"
               data-cursor="link"
-              className="text-sm font-semibold text-accent underline underline-offset-4"
+              className="text-sm font-semibold text-accent link-line-on link-line"
             >
               Όλα τα άρθρα
             </Link>
@@ -37,7 +37,7 @@ export default function ArticleTeasers({ limit }: { limit?: number }) {
                 href={`/arthra/${a.slug}`}
                 data-cursor="link"
                 data-cursor-label="Ανάγνωση"
-                className="group flex h-full flex-col p-7 transition-colors duration-500 hover:bg-paper-2 md:p-9"
+                className="press-sm group flex h-full flex-col p-7 transition-colors t-quick hover:bg-paper-2 md:p-9"
               >
                 <p className="eyebrow !text-accent">{a.category}</p>
 
@@ -53,7 +53,7 @@ export default function ArticleTeasers({ limit }: { limit?: number }) {
                   <span>{a.readingMinutes} λεπτά ανάγνωσης</span>
                   <span
                     aria-hidden
-                    className="ml-auto block h-px w-12 origin-right scale-x-50 bg-line transition-[transform,background-color] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100 group-hover:bg-accent"
+                    className="ml-auto block h-px w-12 origin-right scale-x-50 bg-line transition-[transform,background-color] t-slow group-hover:scale-x-100 group-hover:bg-accent"
                   />
                 </p>
               </Link>

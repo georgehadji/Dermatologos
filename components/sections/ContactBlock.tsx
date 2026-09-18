@@ -30,7 +30,7 @@ export default function ContactBlock({ withForm = false }: { withForm?: boolean 
                 target="_blank"
                 rel="noopener noreferrer"
                 data-cursor="link"
-                className="mt-3 inline-block text-sm text-accent underline underline-offset-4"
+                className="mt-3 inline-block text-sm text-accent link-line-on link-line"
               >
                 Οδηγίες πρόσβασης
               </a>
@@ -51,7 +51,7 @@ export default function ContactBlock({ withForm = false }: { withForm?: boolean 
                   href={`tel:${doctor.phone}`}
                   data-cursor="call"
                   data-cursor-label="Κλήση"
-                  className="display mt-3 inline-block text-[clamp(1.75rem,4vw,2.75rem)] text-ink transition-colors duration-300 hover:text-accent"
+                  className="display mt-3 inline-block text-[clamp(1.75rem,4vw,2.75rem)] text-ink transition-colors t-quick hover:text-accent"
                 >
                   {doctor.phoneDisplay}
                 </a>
@@ -62,7 +62,7 @@ export default function ContactBlock({ withForm = false }: { withForm?: boolean 
               <Link
                 href="/epikoinonia"
                 data-cursor="link"
-                className="inline-flex items-center gap-3 rounded-full bg-accent px-7 py-3.5 font-semibold text-paper transition-colors duration-300 hover:bg-ink"
+                className="press inline-flex items-center gap-3 rounded-full bg-accent px-7 py-3.5 font-semibold text-paper transition-colors t-quick hover:bg-ink"
               >
                 Φόρμα επικοινωνίας
               </Link>

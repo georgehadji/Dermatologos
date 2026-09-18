@@ -1,9 +1,9 @@
 "use client";
 
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
-import { SIMPLEX_3D, useWebGLReady } from "@/lib/webgl";
+import { SIMPLEX_3D, useInView, useWebGLReady } from "@/lib/webgl";
 
 const vertex = /* glsl */ `
 varying vec2 vUv;
@@ -48,21 +48,45 @@ void main(){
   // Pointer acts as a soft light source pressed against the surface.
   vec2 m = vec2((uMouse.x - 0.5) * uAspect, uMouse.y - 0.5);
   float d = length(p - m);
-  float glow = smoothstep(0.62, 0.0, d);
+  float glow = smoothstep(0.46, 0.0, d);
 
   float depth = field * 0.5 + 0.5;
-  depth = mix(depth, depth + glow * 0.42, 0.85);
+  depth = mix(depth, depth + glow * 0.30, 0.85);
 
   // Vignette keeps the edges paper-clean so the section blends into the page.
-  float edge = smoothstep(0.95, 0.25, length(p * vec2(0.82, 1.15)));
+  float edge = smoothstep(1.02, 0.28, length(p * vec2(0.85, 1.18)));
 
+  /*
+   * Art direction, not decoration. The headline occupies the upper left and
+   * the actions sit along the bottom, so the light is confined to the upper
+   * right: one ramp across x, one up from the baseline. Type always lands on
+   * flat paper, and the shader becomes a composition element instead of a
+   * field of haze behind everything.
+   */
+  /*
+   * On a wide screen the right third of the hero is empty, so the light lives
+   * there. On a narrow one the type runs full width and the only free area is
+   * the strip above the headline, so the mask rotates from a column into a
+   * band. One uniform, two compositions, type never sits on moving colour.
+   */
+  float narrow = step(uAspect, 1.0);
+  float column = mix(smoothstep(0.44, 0.76, uv.x), 1.0, narrow);
+  float band = mix(smoothstep(0.06, 0.30, uv.y), smoothstep(0.60, 0.92, uv.y), narrow);
+  float mask = edge * column * band;
+
+  /*
+   * Thresholds are high and mix amounts low on purpose: only the brightest
+   * folds take colour, so the surface reads as light caught on skin rather
+   * than a tinted cloud. Earlier values (0.55 skin, 0.22 accent, from 0.42)
+   * covered most of the frame once the layer became visible.
+   */
   vec3 col = uPaper;
-  col = mix(col, uSkin, smoothstep(0.42, 0.95, depth) * 0.55 * edge);
-  col = mix(col, uAccent, smoothstep(0.72, 1.0, depth) * 0.22 * edge);
+  col = mix(col, uSkin, smoothstep(0.42, 0.92, depth) * 0.55 * mask);
+  col = mix(col, uAccent, smoothstep(0.72, 1.0, depth) * 0.17 * mask);
 
   // Faint specular ridge where the warp folds over itself.
   float ridge = smoothstep(0.55, 0.58, abs(w2));
-  col += ridge * 0.03 * edge;
+  col += ridge * 0.035 * mask;
 
   // Fades out as the hero scrolls away, so the section below stays flat.
   float fade = 1.0 - smoothstep(0.0, 0.85, uScroll);
@@ -90,12 +114,16 @@ function Surface() {
     []
   );
 
+  useEffect(() => {
+    const u = mat.current?.uniforms;
+    if (u) u.uAspect.value = size.width / size.height;
+  }, [size.width, size.height]);
+
   useFrame((state, delta) => {
     const u = mat.current?.uniforms;
     if (!u) return;
 
     u.uTime.value += delta;
-    u.uAspect.value = size.width / size.height;
 
     // Pointer comes in normalised to [-1,1] from R3F; remap and ease so the
     // highlight trails the cursor instead of snapping to it.
@@ -123,24 +151,35 @@ function Surface() {
 
 export default function HeroCanvas({ className }: { className?: string }) {
   const ready = useWebGLReady();
+  const { ref, inView, seen } = useInView<HTMLDivElement>();
+  const [lost, setLost] = useState(false);
 
   return (
-    <div className={className} aria-hidden>
+    <div ref={ref} className={className} aria-hidden>
       {/* Painted fallback: identical paper tone, so the swap is invisible. */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(60% 55% at 62% 42%, #eccbb855 0%, transparent 62%), radial-gradient(45% 40% at 28% 70%, #2a9d8f22 0%, transparent 60%), var(--color-paper)",
+            "radial-gradient(48% 46% at 78% 22%, #eccbb840 0%, transparent 66%), radial-gradient(34% 32% at 92% 6%, #2a9d8f1a 0%, transparent 64%), var(--color-paper)",
         }}
       />
-      {ready && (
+      {ready && seen && !lost && (
         <Canvas
+          onCreated={({ gl }) => {
+            // A lost context leaves a dead black rectangle. Every one of these
+            // canvases already paints a CSS fallback behind itself, so the
+            // honest recovery is to unmount and show it.
+            gl.domElement.addEventListener("webglcontextlost", (e) => {
+              e.preventDefault();
+              setLost(true);
+            });
+          }}
           className="!absolute inset-0"
           dpr={[1, 1.75]}
           gl={{ antialias: false, alpha: false, powerPreference: "high-performance" }}
           camera={{ position: [0, 0, 1], fov: 50 }}
-          frameloop="always"
+          frameloop={inView ? "always" : "never"}
         >
           <Surface />
         </Canvas>

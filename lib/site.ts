@@ -20,6 +20,40 @@ export const SITE_URL =
     ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
     : "https://chrysospathis-dermatologos.gr");
 
+/**
+ * Per-page metadata in one place.
+ *
+ * Next inherits an unset `openGraph`/`twitter` block wholesale from the nearest
+ * parent that sets one — so every page that only declared a title and a
+ * canonical was sharing the homepage's social card. Anyone posting a link to
+ * the contact page got the homepage's title and description instead.
+ */
+export function pageMetadata({
+  title,
+  description,
+  path,
+}: {
+  title: string;
+  description: string;
+  path: string;
+}) {
+  const url = `${SITE_URL}${path}`;
+  return {
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "website" as const,
+      locale: "el_GR",
+      url,
+      title,
+      description,
+      siteName: "Αθανάσιος Χρυσοσπάθης",
+    },
+    twitter: { card: "summary_large_image" as const, title, description },
+  };
+}
+
 export const doctor = {
   firstName: "Αθανάσιος",
   lastName: "Χρυσοσπάθης",
@@ -326,12 +360,12 @@ export const visitSteps = [
 
 /** Gallery slides. The image files are produced from the prompts in PROMPTS.md. */
 export const clinicImages = [
-  { src: "/images/clinic-01.png", alt: "Η είσοδος του ιατρείου στην Περαία", caption: "Η είσοδος" },
-  { src: "/images/clinic-02.png", alt: "Ο χώρος υποδοχής του ιατρείου", caption: "Υποδοχή" },
-  { src: "/images/clinic-03.png", alt: "Η αίθουσα αναμονής", caption: "Αναμονή" },
-  { src: "/images/clinic-04.png", alt: "Το εξεταστήριο", caption: "Εξεταστήριο" },
-  { src: "/images/clinic-05.png", alt: "Δερματοσκόπιο σε κοντινή λήψη", caption: "Δερματοσκόπηση" },
-  { src: "/images/clinic-06.png", alt: "Διάδρομος του ιατρείου", caption: "Λεπτομέρεια" },
+  { src: "/images/iatreio-eisodos-peraia.png", alt: "Η είσοδος του ιατρείου στην Περαία", caption: "Η είσοδος" },
+  { src: "/images/iatreio-ypodochi.png", alt: "Ο χώρος υποδοχής του ιατρείου", caption: "Υποδοχή" },
+  { src: "/images/iatreio-anamoni.png", alt: "Η αίθουσα αναμονής", caption: "Αναμονή" },
+  { src: "/images/iatreio-exetastirio.png", alt: "Το εξεταστήριο", caption: "Εξεταστήριο" },
+  { src: "/images/dermatoskopio-macro.png", alt: "Δερματοσκόπιο σε κοντινή λήψη", caption: "Δερματοσκόπηση" },
+  { src: "/images/iatreio-diadromos.png", alt: "Διάδρομος του ιατρείου", caption: "Λεπτομέρεια" },
 ] as const;
 
 export const mapsEmbed = `https://www.google.com/maps?q=${encodeURIComponent(

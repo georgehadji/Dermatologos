@@ -5,14 +5,14 @@ import PageHero, { breadcrumbJsonLd, type Crumb } from "@/components/PageHero";
 import JsonLd from "@/components/JsonLd";
 import ConditionsGrid from "@/components/sections/ConditionsGrid";
 import ContactBlock from "@/components/sections/ContactBlock";
-import { SITE_URL, conditions, doctor } from "@/lib/site";
+import { SITE_URL, conditions, doctor, pageMetadata } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Παθήσεις & Υπηρεσίες | Δερματολόγος Περαία Θεσσαλονίκης",
   description:
     "Ακμή, ψωρίαση, έκζεμα, ατοπική δερματίτιδα, παθήσεις τριχών και ονύχων, παιδιατρική δερματολογία. Δέκα πεδία κλινικής δερματολογίας στο ιατρείο της Περαίας.",
-  alternates: { canonical: `${SITE_URL}/patheseis` },
-};
+  path: "/patheseis",
+});
 
 const crumbs: Crumb[] = [{ label: "Παθήσεις", href: "/patheseis" }];
 

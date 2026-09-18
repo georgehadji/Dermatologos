@@ -59,7 +59,7 @@ verified; the description of how the practice operates is not.
 ### 5. Photography
 
 Every file in `public/images/` is a generated placeholder. `PROMPTS.md` has a
-prompt for each. `doctor-portrait.png` stands in for a real, named person and is
+prompt for each. `dermatologos-athanasios-chrysospathis.png` stands in for a real, named person and is
 presented to patients as him.
 
 ### 6. Missing from the listing, currently absent from the site

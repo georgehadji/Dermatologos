@@ -1,9 +1,9 @@
 "use client";
 
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
-import { useWebGLReady } from "@/lib/webgl";
+import { useInView, useWebGLReady } from "@/lib/webgl";
 
 const vertex = /* glsl */ `
 varying vec2 vUv;
@@ -69,11 +69,15 @@ function Water() {
     []
   );
 
+  useEffect(() => {
+    const u = mat.current?.uniforms;
+    if (u) u.uAspect.value = size.width / size.height;
+  }, [size.width, size.height]);
+
   useFrame((_, delta) => {
     const u = mat.current?.uniforms;
     if (!u) return;
     u.uTime.value += delta * 0.6;
-    u.uAspect.value = size.width / size.height;
   });
 
   return (
@@ -91,16 +95,28 @@ function Water() {
 
 export default function CausticsCanvas({ className }: { className?: string }) {
   const ready = useWebGLReady();
+  const { ref, inView, seen } = useInView<HTMLDivElement>();
+  const [lost, setLost] = useState(false);
 
   return (
-    <div className={className} aria-hidden>
+    <div ref={ref} className={className} aria-hidden>
       <div className="absolute inset-0 bg-ink" />
-      {ready && (
+      {ready && seen && !lost && (
         <Canvas
+          onCreated={({ gl }) => {
+            // A lost context leaves a dead black rectangle. Every one of these
+            // canvases already paints a CSS fallback behind itself, so the
+            // honest recovery is to unmount and show it.
+            gl.domElement.addEventListener("webglcontextlost", (e) => {
+              e.preventDefault();
+              setLost(true);
+            });
+          }}
           className="!absolute inset-0"
           dpr={[1, 1.5]}
           gl={{ antialias: false, alpha: false }}
           camera={{ position: [0, 0, 1], fov: 50 }}
+          frameloop={inView ? "always" : "never"}
         >
           <Water />
         </Canvas>

@@ -7,13 +7,13 @@ import LensReveal from "@/components/LensReveal";
 import Reveal from "@/components/Reveal";
 import VisitSteps from "@/components/sections/VisitSteps";
 import ContactBlock from "@/components/sections/ContactBlock";
-import { SITE_URL, clinicImages, doctor } from "@/lib/site";
+import { SITE_URL, clinicImages, doctor, pageMetadata } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Το Ιατρείο | Δερματολογικό Ιατρείο Περαία Θεσσαλονίκης",
   description: `Ο χώρος του δερματολογικού ιατρείου στην ${doctor.address.area}, ${doctor.address.street}. Υποδοχή, αναμονή και εξεταστήριο.`,
-  alternates: { canonical: `${SITE_URL}/iatreio` },
-};
+  path: "/iatreio",
+});
 
 const crumbs: Crumb[] = [{ label: "Το Ιατρείο", href: "/iatreio" }];
 

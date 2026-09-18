@@ -18,7 +18,7 @@ ink `#10161A`, one petrol-teal accent `#145E58`, soft daylight, no clutter.
 
 ---
 
-## `doctor-portrait.png` — 4:5 portrait
+## `dermatologos-athanasios-chrysospathis.png` — 4:5 portrait
 
 > Editorial portrait of a Greek male dermatologist in his late fifties, short
 > grey hair, calm confident expression, light stubble, wearing a crisp white
@@ -41,7 +41,7 @@ Alternatives worth generating so there is a choice:
 
 ---
 
-## `clinic-01.png` — the entrance · 4:5 portrait
+## `iatreio-eisodos-peraia.png` — the entrance · 4:5 portrait
 
 > The entrance of a small private dermatology practice on a quiet Greek suburban
 > street. Pale plaster façade, a plain glass door with a slim dark frame, a
@@ -49,14 +49,14 @@ Alternatives worth generating so there is a choice:
 > Late afternoon light raking across the wall. Shot straight on from the
 > pavement, vertical composition.
 
-## `clinic-02.png` — reception · 4:5 portrait
+## `iatreio-ypodochi.png` — reception · 4:5 portrait
 
 > Reception area of a minimal medical practice. Pale oak desk with a rounded
 > front, a single small vase with one dried branch, a closed laptop, nothing
 > else on the surface. Warm off-white wall behind, one recessed shelf. Soft
 > daylight from the left. No people. Vertical composition.
 
-## `clinic-03.png` — the waiting area · 4:5 portrait
+## `iatreio-anamoni.png` — the waiting area · 4:5 portrait
 
 > Waiting area of a small clinic: three linen-upholstered chairs in oatmeal
 > against an off-white wall, a low travertine side table with two neatly stacked
@@ -64,7 +64,7 @@ Alternatives worth generating so there is a choice:
 > window out of frame casting a soft rectangle of light on the floor. Empty,
 > quiet, vertical composition.
 
-## `clinic-04.png` — the examination room · 4:5 portrait
+## `iatreio-exetastirio.png` — the examination room · 4:5 portrait
 
 > Dermatology examination room. A clean examination couch with fresh white
 > paper, a stainless adjustable examination lamp angled down, a small trolley
@@ -72,7 +72,7 @@ Alternatives worth generating so there is a choice:
 > warmed by daylight. Deep petrol-green detail on a single cabinet door. No
 > people, no visible branding, vertical composition.
 
-## `clinic-05.png` — dermatoscope, macro · 4:5 portrait
+## `dermatoskopio-macro.png` — dermatoscope, macro · 4:5 portrait
 
 > Extreme close-up of a handheld dermatoscope resting on a clean pale surface,
 > its glass lens catching a soft highlight, knurled metal barrel, a faint teal
@@ -82,7 +82,7 @@ Alternatives worth generating so there is a choice:
 > This one carries the site's lens interaction, so a sharp, high-detail file
 > matters more here than anywhere else.
 
-## `clinic-06.png` — corridor detail · 4:5 portrait
+## `iatreio-diadromos.png` — corridor detail · 4:5 portrait
 
 > Quiet corridor inside a small medical practice. Off-white wall, a single
 > half-open pale oak door, a slim brushed-steel handle, warm daylight spilling

@@ -5,15 +5,15 @@ import PageHero, { breadcrumbJsonLd, type Crumb } from "@/components/PageHero";
 import JsonLd from "@/components/JsonLd";
 import ArticleTeasers from "@/components/sections/ArticleTeasers";
 import ContactBlock from "@/components/sections/ContactBlock";
-import { SITE_URL, doctor } from "@/lib/site";
+import { SITE_URL, doctor, pageMetadata } from "@/lib/site";
 import { articles } from "@/lib/articles";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Επιστημονικά Άρθρα | Δερματολογία — Περαία Θεσσαλονίκης",
   description:
     "Άρθρα για ακμή, ψωρίαση, ατοπική δερματίτιδα, τριχόπτωση, ονυχομυκητίαση, σπίλους και αντηλιακή προστασία, γραμμένα για ασθενείς.",
-  alternates: { canonical: `${SITE_URL}/arthra` },
-};
+  path: "/arthra",
+});
 
 const crumbs: Crumb[] = [{ label: "Άρθρα", href: "/arthra" }];
 

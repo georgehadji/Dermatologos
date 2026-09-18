@@ -23,6 +23,13 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
     gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);
 
+    /*
+     * Fonts load with `display: swap`, and the pinned gallery computes its end
+     * distance from scrollWidth at mount. Without a refresh once the real
+     * metrics land, those numbers stay wrong until the next resize.
+     */
+    document.fonts?.ready.then(() => ScrollTrigger.refresh());
+
     return () => {
       gsap.ticker.remove(tick);
       lenis.destroy();

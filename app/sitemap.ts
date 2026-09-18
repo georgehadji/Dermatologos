@@ -4,8 +4,15 @@ import { articles } from "@/lib/articles";
 
 export const dynamic = "force-static";
 
+/**
+ * Bump this when the site's static copy actually changes. Using the build clock
+ * moved `lastmod` on every deploy even for pages that were untouched, which
+ * search engines discount as noise.
+ */
+const CONTENT_UPDATED = new Date("2026-09-18");
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
+  const now = CONTENT_UPDATED;
 
   // `as const` keeps changeFrequency a literal union; spreading through .map()
   // would otherwise widen it to string and fail the MetadataRoute.Sitemap type.

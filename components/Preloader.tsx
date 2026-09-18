@@ -90,14 +90,18 @@ export default function Preloader() {
       </div>
 
       <div className="flex items-end justify-between gap-6">
-        <h1 className="display text-[clamp(2.5rem,9vw,7rem)]">
+        {/*
+          Not an <h1>. Hero owns the page heading, and while the intro is on
+          screen both were in the DOM at once.
+        */}
+        <p className="display text-[clamp(2.5rem,9vw,7rem)]">
           <span className="block overflow-hidden">
             <span className="pre-word block">{doctor.firstName}</span>
           </span>
           <span className="block overflow-hidden italic text-accent">
             <span className="pre-word block">{doctor.lastName}</span>
           </span>
-        </h1>
+        </p>
         <span ref={count} className="font-sans text-[clamp(1rem,3vw,2rem)] tabular-nums text-ink-3">
           000
         </span>

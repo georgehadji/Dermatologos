@@ -140,13 +140,13 @@ const TEAL = [20, 94, 88];
 const INK = [16, 22, 26];
 
 const FILES = [
-  { name: "doctor-portrait.png", w: 880, h: 1100, warm: PAPER, cool: mix(INK, TEAL, 0.5), seed: 3, light: [0.34, 0.26] },
-  { name: "clinic-01.png", w: 900, h: 1125, warm: PAPER, cool: mix(TEAL, INK, 0.35), seed: 11, light: [0.2, 0.18] },
-  { name: "clinic-02.png", w: 900, h: 1125, warm: PAPER, cool: mix(SKIN, TEAL, 0.5), seed: 23, light: [0.7, 0.22] },
-  { name: "clinic-03.png", w: 900, h: 1125, warm: PAPER, cool: mix(PAPER, TEAL, 0.55), seed: 37, light: [0.4, 0.14] },
-  { name: "clinic-04.png", w: 900, h: 1125, warm: PAPER, cool: mix(INK, TEAL, 0.62), seed: 51, light: [0.28, 0.3] },
-  { name: "clinic-05.png", w: 900, h: 1125, warm: SKIN, cool: mix(INK, TEAL, 0.4), seed: 67, light: [0.55, 0.45] },
-  { name: "clinic-06.png", w: 900, h: 1125, warm: PAPER, cool: mix(SKIN, INK, 0.45), seed: 83, light: [0.16, 0.6] },
+  { name: "dermatologos-athanasios-chrysospathis.png", w: 880, h: 1100, warm: PAPER, cool: mix(INK, TEAL, 0.5), seed: 3, light: [0.34, 0.26] },
+  { name: "iatreio-eisodos-peraia.png", w: 900, h: 1125, warm: PAPER, cool: mix(TEAL, INK, 0.35), seed: 11, light: [0.2, 0.18] },
+  { name: "iatreio-ypodochi.png", w: 900, h: 1125, warm: PAPER, cool: mix(SKIN, TEAL, 0.5), seed: 23, light: [0.7, 0.22] },
+  { name: "iatreio-anamoni.png", w: 900, h: 1125, warm: PAPER, cool: mix(PAPER, TEAL, 0.55), seed: 37, light: [0.4, 0.14] },
+  { name: "iatreio-exetastirio.png", w: 900, h: 1125, warm: PAPER, cool: mix(INK, TEAL, 0.62), seed: 51, light: [0.28, 0.3] },
+  { name: "dermatoskopio-macro.png", w: 900, h: 1125, warm: SKIN, cool: mix(INK, TEAL, 0.4), seed: 67, light: [0.55, 0.45] },
+  { name: "iatreio-diadromos.png", w: 900, h: 1125, warm: PAPER, cool: mix(SKIN, INK, 0.45), seed: 83, light: [0.16, 0.6] },
   // Wide crop reused as the Open Graph background.
   { name: "og-background.png", w: 1200, h: 630, warm: PAPER, cool: mix(TEAL, INK, 0.45), seed: 101, light: [0.24, 0.2] },
 ];

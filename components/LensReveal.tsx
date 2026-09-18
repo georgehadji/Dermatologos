@@ -36,16 +36,36 @@ export default function LensReveal({
   const box = useRef<HTMLDivElement>(null);
   const [on, setOn] = useState(false);
 
-  const move = (e: React.PointerEvent<HTMLDivElement>) => {
-    const el = box.current;
-    if (!el || !isFinePointer()) return;
+  const place = (el: HTMLDivElement, e: React.PointerEvent<HTMLDivElement>) => {
     const r = el.getBoundingClientRect();
     el.style.setProperty("--lx", `${e.clientX - r.left}px`);
     el.style.setProperty("--ly", `${e.clientY - r.top}px`);
   };
 
+  const move = (e: React.PointerEvent<HTMLDivElement>) => {
+    const el = box.current;
+    if (!el) return;
+    // On touch the lens only tracks once it has been opened, so an ordinary
+    // scroll drag across the image does not drag the dermatoscope with it.
+    if (!isFinePointer() && !on) return;
+    place(el, e);
+  };
+
   const enter = () => isFinePointer() && setOn(true);
-  const leave = () => setOn(false);
+  const leave = () => isFinePointer() && setOn(false);
+
+  /*
+   * Touch alternative. There is no hover on a phone, so the dermatoscope opens
+   * where the finger lands and stays there until the next tap — without this
+   * the whole interaction simply did not exist below a mouse.
+   */
+  const tap = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (isFinePointer()) return;
+    const el = box.current;
+    if (!el) return;
+    place(el, e);
+    setOn((v) => !v);
+  };
 
   const mask = `radial-gradient(circle var(--lr, 0px) at var(--lx, 50%) var(--ly, 50%), #000 62%, rgba(0,0,0,0.35) 82%, transparent 100%)`;
 
@@ -53,6 +73,7 @@ export default function LensReveal({
     <div
       ref={box}
       onPointerMove={move}
+      onPointerDown={tap}
       onPointerEnter={enter}
       onPointerLeave={leave}
       data-cursor="lens"
@@ -73,8 +94,20 @@ export default function LensReveal({
         height={height}
         loading={priority ? "eager" : "lazy"}
         decoding="async"
-        className="size-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
+        className="size-full object-cover transition-transform duration-[1200ms] ease-[var(--ease-expo)]"
       />
+
+      {/*
+        Touch affordance. Hidden wherever hover exists, because there the lens
+        follows the pointer and needs no instruction.
+      */}
+      <span
+        className={`pointer-events-none absolute bottom-3 left-3 rounded-full bg-ink/75 px-3 py-1.5 text-[11px] font-medium text-paper backdrop-blur transition-opacity t-quick [@media(hover:hover)]:hidden ${
+          on ? "opacity-0" : "opacity-100"
+        }`}
+      >
+        Πατήστε για μεγέθυνση
+      </span>
 
       {/* Magnified layer, revealed only inside the lens. */}
       <img
@@ -107,7 +140,7 @@ export default function LensReveal({
       >
         <svg
           viewBox="0 0 100 100"
-          className="size-full transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]"
+          className="size-full transition-[transform,opacity] t-base"
           style={{
             transform: `scale(${on ? 1 : 0})`,
             opacity: on ? 1 : 0,

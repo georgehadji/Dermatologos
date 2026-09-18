@@ -1,9 +1,9 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
-import { SIMPLEX_3D, useWebGLReady } from "@/lib/webgl";
+import { SIMPLEX_3D, useInView, useWebGLReady } from "@/lib/webgl";
 
 // 3000 is the mobile-safe baseline; raise only after profiling on a real phone.
 const COUNT = 3000;
@@ -138,17 +138,30 @@ export default function ParticleField({
   className?: string;
 }) {
   const ready = useWebGLReady();
-  if (!ready) return null;
+  const { ref, inView, seen } = useInView<HTMLDivElement>();
+  const [lost, setLost] = useState(false);
 
   return (
-    <div className={className} aria-hidden>
+    <div ref={ref} className={className} aria-hidden>
+      {ready && seen && !lost && (
       <Canvas
+          onCreated={({ gl }) => {
+            // A lost context leaves a dead black rectangle. Every one of these
+            // canvases already paints a CSS fallback behind itself, so the
+            // honest recovery is to unmount and show it.
+            gl.domElement.addEventListener("webglcontextlost", (e) => {
+              e.preventDefault();
+              setLost(true);
+            });
+          }}
         dpr={[1, 1.75]}
         gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
         camera={{ position: [0, 0, 5.2], fov: 50 }}
+        frameloop={inView ? "always" : "never"}
       >
         <Points energy={active} />
       </Canvas>
+      )}
     </div>
   );
 }

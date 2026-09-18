@@ -8,6 +8,8 @@ import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
 import ContactBlock from "@/components/sections/ContactBlock";
 import { SITE_URL, conditions, doctor } from "@/lib/site";
+import { articles } from "@/lib/articles";
+import { formatDate } from "@/lib/format";
 
 type Params = { slug: string };
 
@@ -43,6 +45,7 @@ export default async function ConditionPage({ params }: { params: Promise<Params
 
   const idx = conditions.findIndex((x) => x.slug === slug);
   const next = conditions[(idx + 1) % conditions.length];
+  const relatedArticles = articles.filter((a) => a.related.includes(c.slug));
   const crumbs: Crumb[] = [
     { label: "Παθήσεις", href: "/patheseis" },
     { label: c.title, href: `/patheseis/${c.slug}` },
@@ -55,8 +58,12 @@ export default async function ConditionPage({ params }: { params: Promise<Params
     url: `${SITE_URL}/patheseis/${c.slug}`,
     description: c.text,
     inLanguage: "el",
-    lastReviewed: "2026-09-01",
-    reviewedBy: { "@type": "Physician", name: doctor.name, medicalSpecialty: "Dermatology" },
+    /*
+     * No `lastReviewed` / `reviewedBy` until the physician has actually read
+     * and dated each page. A hardcoded review date, identical on all ten
+     * conditions, is a fabricated E-E-A-T signal on health content — the exact
+     * thing Google's medical-content systems are built to catch. See CONTENT.md.
+     */
     about: {
       "@type": "MedicalCondition",
       name: c.title,
@@ -127,6 +134,32 @@ export default async function ConditionPage({ params }: { params: Promise<Params
           </div>
         </section>
 
+        {relatedArticles.length > 0 && (
+          <section className="section-y">
+            <div className="shell">
+              <p className="eyebrow">Διαβάστε επίσης</p>
+              <ul className="mt-8 border-t border-line">
+                {relatedArticles.map((a) => (
+                  <li key={a.slug}>
+                    <Link
+                      href={`/arthra/${a.slug}`}
+                      data-cursor="link"
+                      className="press-sm group flex flex-col gap-2 border-b border-line py-7 md:flex-row md:items-baseline md:justify-between md:gap-10"
+                    >
+                      <span className="display text-2xl transition-transform t-slow group-hover:translate-x-2 md:text-3xl">
+                        {a.title}
+                      </span>
+                      <span className="shrink-0 text-sm text-ink-3">
+                        {formatDate(a.date)}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
         <section className="section-y">
           <div className="shell">
             <Link
@@ -136,7 +169,7 @@ export default async function ConditionPage({ params }: { params: Promise<Params
               className="group block border-t border-line pt-8"
             >
               <p className="eyebrow">Επόμενη πάθηση</p>
-              <p className="display mt-4 text-[clamp(2rem,6vw,4rem)] transition-transform duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-3">
+              <p className="display mt-4 text-[clamp(2rem,6vw,4rem)] transition-transform t-slow group-hover:translate-x-3">
                 {next.title}
               </p>
             </Link>

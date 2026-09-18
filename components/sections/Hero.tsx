@@ -7,7 +7,17 @@ import { doctor, mapsLink } from "@/lib/site";
 import { getOpenState, type OpenState } from "@/lib/hours";
 import { PRELOADER_DONE, isPreloaderDone } from "@/components/Preloader";
 import { ArrowRightIcon, MapPinIcon, PhoneIcon } from "@/components/Icon";
-import HeroCanvas from "@/components/webgl/HeroCanvas";
+import dynamic from "next/dynamic";
+
+/*
+ * Split out of the initial chunk. `three` plus @react-three/fiber is the
+ * heaviest dependency on the site and `useWebGLReady` only defers *rendering*
+ * the canvas, never *loading* the module — so without this every visitor paid
+ * for it, reduced-motion and WebGL-less browsers included.
+ */
+const HeroCanvas = dynamic(() => import("@/components/webgl/HeroCanvas"), {
+  ssr: false,
+});
 import Magnetic from "@/components/Magnetic";
 import SplitLines from "@/components/SplitLines";
 
@@ -96,7 +106,7 @@ export default function Hero() {
               target="_blank"
               rel="noopener noreferrer"
               data-cursor="link"
-              className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-accent underline underline-offset-4"
+              className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-accent link-line-on link-line"
             >
               <MapPinIcon className="size-4" />
               Οδηγίες πρόσβασης
@@ -110,7 +120,7 @@ export default function Hero() {
               href={`tel:${doctor.phone}`}
               data-cursor="call"
               data-cursor-label="Κλήση"
-              className="intro-item inline-flex items-center gap-2.5 rounded-full bg-accent px-8 py-4 font-semibold text-paper transition-colors duration-300 hover:bg-ink"
+              className="press intro-item inline-flex items-center gap-2.5 rounded-full bg-accent px-8 py-4 font-semibold text-paper transition-colors t-quick hover:bg-ink"
               style={{ "--i": 7 } as React.CSSProperties}
             >
               <PhoneIcon className="size-4" />
@@ -125,7 +135,7 @@ export default function Hero() {
             style={{ "--i": 8 } as React.CSSProperties}
           >
             Δείτε τις παθήσεις
-            <span className="grid size-9 place-items-center rounded-full border border-line transition-[background-color,border-color,transform] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1 group-hover:border-accent group-hover:bg-accent">
+            <span className="grid size-9 place-items-center rounded-full border border-line transition-[background-color,border-color,transform] t-slow group-hover:translate-x-1 group-hover:border-accent group-hover:bg-accent">
               <ArrowRightIcon className="size-4 text-ink transition-colors group-hover:text-paper" />
             </span>
           </Link>
@@ -136,7 +146,7 @@ export default function Hero() {
           */}
           <span
             aria-live="polite"
-            className="intro-item inline-flex min-h-[42px] min-w-[16rem] items-center gap-2.5 rounded-full border border-line bg-paper-2/70 px-4 py-2.5 text-sm text-ink-2 backdrop-blur"
+            className="intro-item inline-flex min-h-[42px] min-w-[16rem] items-center gap-2.5 rounded-full border border-line xl:hidden bg-paper-2/70 px-4 py-2.5 text-sm text-ink-2 backdrop-blur"
             style={{ "--i": 9, visibility: state ? "visible" : "hidden" } as React.CSSProperties}
           >
             {state && (

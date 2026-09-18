@@ -27,7 +27,12 @@ export async function generateMetadata({
   if (!a) return {};
 
   return {
-    title: `${a.title} | ${doctor.name}`,
+    /*
+     * No brand suffix. Greek article titles already run long, and appending the
+     * doctor's name pushed several past 75 characters — truncating exactly the
+     * brand the suffix was meant to reinforce.
+     */
+    title: a.title,
     description: a.excerpt,
     alternates: { canonical: `${SITE_URL}/arthra/${a.slug}` },
     openGraph: {
@@ -56,7 +61,13 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
 
   const schema = {
     "@context": "https://schema.org",
-    "@type": "MedicalScholarlyArticle",
+    /*
+     * MedicalWebPage, not MedicalScholarlyArticle. The latter means
+     * peer-reviewed journal literature; these are patient-education pages that
+     * carry their own "this does not replace an examination" disclaimer.
+     * Claiming journal provenance for them misrepresents the content.
+     */
+    "@type": "MedicalWebPage",
     headline: a.title,
     description: a.excerpt,
     url: `${SITE_URL}/arthra/${a.slug}`,
@@ -72,13 +83,10 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
           : b.text.split(/\s+/).length),
       0
     ),
-    author: {
-      "@type": "Physician",
-      name: doctor.name,
-      medicalSpecialty: "Dermatology",
-      url: `${SITE_URL}/iatros`,
-    },
-    publisher: { "@type": "MedicalBusiness", name: doctor.name },
+    author: { "@id": `${SITE_URL}/#physician` },
+    image: `${SITE_URL}/arthra/${a.slug}/opengraph-image.png`,
+    publisher: { "@id": `${SITE_URL}/#physician` },
+    audience: { "@type": "MedicalAudience", audienceType: "Patient" },
     mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE_URL}/arthra/${a.slug}` },
   };
 
@@ -126,7 +134,7 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
                         <Link
                           href={`/patheseis/${c.slug}`}
                           data-cursor="link"
-                          className="inline-block rounded-full border border-line px-4 py-2 text-sm text-ink-2 transition-colors duration-300 hover:border-accent hover:text-accent"
+                          className="press inline-block rounded-full border border-line px-4 py-2 text-sm text-ink-2 transition-colors t-quick hover:border-accent hover:text-accent"
                         >
                           {c.title}
                         </Link>
@@ -143,7 +151,7 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
                 className="group mt-16 block border-t border-line pt-8"
               >
                 <p className="eyebrow">Επόμενο άρθρο</p>
-                <p className="display mt-4 text-[clamp(1.5rem,4vw,2.5rem)] leading-[1.15] transition-transform duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-3">
+                <p className="display mt-4 text-[clamp(1.5rem,4vw,2.5rem)] leading-[1.15] transition-transform t-slow group-hover:translate-x-3">
                   {next.title}
                 </p>
               </Link>

@@ -27,7 +27,7 @@ export default function NotFound() {
               <Link
                 href="/"
                 data-cursor="link"
-                className="inline-block rounded-full bg-accent px-6 py-3 text-sm font-semibold text-paper transition-colors duration-300 hover:bg-ink"
+                className="press inline-block rounded-full bg-accent px-6 py-3 text-sm font-semibold text-paper transition-colors t-quick hover:bg-ink"
               >
                 Αρχική
               </Link>
@@ -37,7 +37,7 @@ export default function NotFound() {
                 <Link
                   href={item.href}
                   data-cursor="link"
-                  className="inline-block rounded-full border border-line px-6 py-3 text-sm text-ink-2 transition-colors duration-300 hover:border-accent hover:text-accent"
+                  className="press inline-block rounded-full border border-line px-6 py-3 text-sm text-ink-2 transition-colors t-quick hover:border-accent hover:text-accent"
                 >
                   {item.label}
                 </Link>
@@ -47,7 +47,7 @@ export default function NotFound() {
 
           <p className="mt-12 text-sm text-ink-3">
             Ή καλέστε απευθείας στο{" "}
-            <a href={`tel:${doctor.phone}`} className="text-accent underline underline-offset-4">
+            <a href={`tel:${doctor.phone}`} className="text-accent link-line-on link-line">
               {doctor.phoneDisplay}
             </a>
             .

@@ -24,8 +24,26 @@
   /* Spacious scale (density 3/10) */
   --spacing-section: clamp(6rem, 12vw, 12rem);
 
+  /* ——— Interaction system ———
+   *
+   * One scale, used everywhere. The rule is that duration follows distance:
+   * a colour swap has none, so it gets `quick`; a panel that travels the
+   * height of the screen gets `page`. Anything that exits does so at roughly
+   * 60% of the time it took to arrive, because a UI that lingers on the way
+   * out reads as sluggish while one that lingers on the way in reads as
+   * considered.
+   */
+  --dur-tap: 90ms;     /* press feedback — must feel like contact, not animation */
+  --dur-quick: 180ms;  /* colour, opacity, border */
+  --dur-base: 320ms;   /* hover transforms over a short distance */
+  --dur-slow: 560ms;   /* indicators and panels that travel */
+  --dur-page: 900ms;   /* entrances and scroll reveals */
+
   --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  /* Exits accelerate away; entrances decelerate in. */
+  --ease-in-quart: cubic-bezier(0.5, 0, 0.75, 0);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @layer base {
@@ -41,7 +59,13 @@
   }
 
   body {
-    background: var(--color-paper);
+    /*
+     * Deliberately no background here. `html` already paints the paper, and a
+     * background on `body` as well would paint over every `-z-10` decorative
+     * layer (hero shader, particle field, footer caustics, page-hero gradient):
+     * a negative z-index child of a non-stacking-context parent paints below
+     * block backgrounds, and `body`'s is one of them.
+     */
     color: var(--color-ink);
     font-family: var(--font-sans);
     font-feature-settings: "ss01", "cv05";
@@ -86,6 +110,66 @@
 
   .section-y {
     padding-block: clamp(6rem, 12vw, 12rem);
+  }
+
+  /* ——— Interaction utilities ———
+   * Pair one of these with a Tailwind `transition-*` so the property list stays
+   * explicit at the call site and the timing stays consistent across the site.
+   */
+  .t-quick {
+    transition-duration: var(--dur-quick);
+    transition-timing-function: var(--ease-standard);
+  }
+  .t-base {
+    transition-duration: var(--dur-base);
+    transition-timing-function: var(--ease-out-quart);
+  }
+  .t-slow {
+    transition-duration: var(--dur-slow);
+    transition-timing-function: var(--ease-expo);
+  }
+
+  /*
+   * Press feedback. Touch has no hover, so contact is the only moment the
+   * interface can answer back — without it a tap on a phone feels like a
+   * dropped input until the next page paints. Transform-only, so it composites.
+   */
+  .press {
+    transition: transform var(--dur-tap) var(--ease-standard);
+  }
+  .press:active {
+    transform: scale(0.97);
+  }
+  /* A bar or row scales less than a pill; 0.97 on a wide element looks broken. */
+  .press-sm {
+    transition: transform var(--dur-tap) var(--ease-standard);
+  }
+  .press-sm:active {
+    transform: scale(0.99);
+  }
+
+  /*
+   * Underline that grows from the leading edge instead of appearing at once.
+   * background-size animates on the compositor; `text-decoration` does not.
+   */
+  .link-line {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 1px;
+    transition: background-size var(--dur-base) var(--ease-out-quart);
+    padding-bottom: 2px;
+  }
+  .link-line:hover,
+  .link-line:focus-visible {
+    background-size: 100% 1px;
+  }
+  /* Already-underlined links invert: the line retracts to signal the target. */
+  .link-line-on {
+    background-size: 100% 1px;
+  }
+  .link-line-on:hover {
+    background-size: 0% 1px;
   }
 
   .hairline {

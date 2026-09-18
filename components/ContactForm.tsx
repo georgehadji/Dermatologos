@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { cloneElement, isValidElement, useEffect, useRef, useState } from "react";
 import { conditions, contactEmail } from "@/lib/site";
 
 /**
@@ -50,6 +50,11 @@ export default function ContactForm() {
   const mountedAt = useRef(0);
   const lastSentAt = useRef(0);
   const sentCount = useRef(0);
+  /* The POST outlives the component if the visitor navigates mid-send. */
+  const mounted = useRef(true);
+  useEffect(() => () => {
+    mounted.current = false;
+  }, []);
 
   useEffect(() => {
     mountedAt.current = Date.now();
@@ -120,13 +125,14 @@ export default function ContactForm() {
         }),
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (!mounted.current) return;
 
       lastSentAt.current = Date.now();
       sentCount.current += 1;
       setStatus("sent");
       form.reset();
     } catch {
-      setStatus("error");
+      if (mounted.current) setStatus("error");
     }
   }
 
@@ -140,7 +146,7 @@ export default function ContactForm() {
         </p>
         <button
           onClick={() => setStatus("idle")}
-          className="mt-8 cursor-pointer text-sm font-semibold text-accent underline underline-offset-4"
+          className="mt-8 cursor-pointer text-sm font-semibold text-accent link-line-on link-line"
         >
           Αποστολή νέου μηνύματος
         </button>
@@ -248,7 +254,7 @@ export default function ContactForm() {
           <span>
             Συναινώ στην επεξεργασία των στοιχείων μου με μοναδικό σκοπό την απάντηση
             στο αίτημά μου, σύμφωνα με την{" "}
-            <a href="/politiki-aporritou" className="text-accent underline underline-offset-4">
+            <a href="/politiki-aporritou" className="text-accent link-line-on link-line">
               Πολιτική Απορρήτου
             </a>
             .
@@ -262,7 +268,7 @@ export default function ContactForm() {
           type="submit"
           disabled={status === "sending"}
           data-cursor="link"
-          className="group relative cursor-pointer overflow-hidden rounded-full bg-accent px-8 py-4 font-semibold text-paper transition-colors duration-300 hover:bg-ink disabled:cursor-wait disabled:opacity-70"
+          className="press group relative cursor-pointer overflow-hidden rounded-full bg-accent px-8 py-4 font-semibold text-paper transition-colors t-quick hover:bg-ink disabled:cursor-wait disabled:opacity-70"
         >
           <span className="relative z-10">
             {status === "sending" ? "Αποστολή…" : "Αποστολή μηνύματος"}
@@ -286,7 +292,7 @@ export default function ContactForm() {
 }
 
 const inputClass =
-  "peer w-full border-0 border-b border-line bg-transparent pb-3 pt-6 text-ink outline-none transition-colors duration-300 focus:border-accent";
+  "peer w-full border-0 border-b border-ink-3 bg-transparent pb-3 pt-6 text-ink transition-colors t-quick focus:border-accent";
 
 const errClass = "mt-2 text-xs font-medium text-destructive";
 
@@ -304,18 +310,33 @@ function Field({
   required?: boolean;
   children: React.ReactNode;
 }) {
+  /*
+   * The control is passed in as a child, so the wiring that has to live on the
+   * control itself — aria-invalid, aria-describedby pointing at this field's
+   * error, aria-required — is cloned on here rather than repeated at all five
+   * call sites and forgotten at one of them.
+   */
+  const control = isValidElement(children)
+    ? cloneElement(children as React.ReactElement<Record<string, unknown>>, {
+        "aria-invalid": error ? true : undefined,
+        "aria-describedby": error ? `${id}-error` : undefined,
+        "aria-required": required ? true : undefined,
+        required: required || undefined,
+      })
+    : children;
+
   return (
     <div className="relative">
-      {children}
+      {control}
       <label
         htmlFor={id}
-        className="pointer-events-none absolute left-0 top-6 origin-left text-ink-3 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] peer-focus:top-0 peer-focus:scale-[0.78] peer-focus:text-accent peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:scale-[0.78] peer-[select]:top-0 peer-[select]:scale-[0.78]"
+        className="pointer-events-none absolute left-0 top-6 origin-left text-ink-3 transition-all t-base peer-focus:top-0 peer-focus:scale-[0.78] peer-focus:text-accent peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:scale-[0.78] peer-[select]:top-0 peer-[select]:scale-[0.78]"
       >
         {label}
         {required && <span aria-hidden className="text-accent"> *</span>}
       </label>
       {error && (
-        <p className={errClass} role="alert">
+        <p id={`${id}-error`} className={errClass} role="alert">
           {error}
         </p>
       )}

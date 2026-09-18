@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { EB_Garamond, Manrope } from "next/font/google";
-import { SITE_URL, doctor } from "@/lib/site";
+import { SITE_URL, doctor, mapsLink } from "@/lib/site";
 import SmoothScroll from "@/components/SmoothScroll";
 import Cursor from "@/components/Cursor";
-import Preloader from "@/components/Preloader";
 import ScrollProgress from "@/components/ScrollProgress";
+import MobileCallBar from "@/components/MobileCallBar";
 import JsonLd from "@/components/JsonLd";
 import "./globals.css";
 
@@ -23,7 +23,7 @@ const manrope = Manrope({
   display: "swap",
 });
 
-const title = `${doctor.name} — ${doctor.specialty} | Περαία Θεσσαλονίκης`;
+const title = `${doctor.name} — Δερματολόγος Περαία Θεσσαλονίκης`;
 const description = `Δερματολογικό ιατρείο στην Περαία Θεσσαλονίκης. ${doctor.credentials.join(
   " · "
 )}. Καθημερινά ${doctor.hours.open}–${doctor.hours.close}, ${doctor.hours.note}.`;
@@ -66,6 +66,27 @@ export const viewport: Viewport = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": ["Physician", "MedicalBusiness"],
+  /*
+   * One canonical node for the practice. Every other page used to mint its own
+   * anonymous `{"@type":"Physician", name}` stub, leaving search and AI
+   * knowledge graphs to guess they all described the same person. Author,
+   * publisher and reviewer references elsewhere point at these ids instead.
+   */
+  "@id": `${SITE_URL}/#physician`,
+  url: SITE_URL,
+  image: `${SITE_URL}/opengraph-image.png`,
+  hasMap: mapsLink,
+  /* The public directory listing the practice already appears in. */
+  sameAs: [doctor.sourceUrl],
+  areaServed: [
+    { "@type": "City", name: "Περαία" },
+    { "@type": "City", name: "Θεσσαλονίκη" },
+  ],
+  /*
+   * No `geo` block. The street address has never been resolved to verified
+   * coordinates, and an approximate pin on a walk-in clinic sends patients to
+   * the wrong door — worse than no pin at all. See the launch checklist.
+   */
   name: doctor.name,
   medicalSpecialty: "Dermatology",
   description,
@@ -86,12 +107,18 @@ const jsonLd = {
       closes: doctor.hours.close,
     },
   ],
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: doctor.rating.value,
-    reviewCount: doctor.rating.count,
-  },
-  availableService: [
+  /*
+   * No aggregateRating here on purpose. The only rating on record is a single
+   * 5.0 from a public directory. Emitting a perfect score off one review is
+   * exactly the pattern Google's review-snippet guidelines treat as spam, and a
+   * manual action would cost more than the star row could ever earn.
+   */
+  /*
+   * Conditions treated are knowledge, not services. The previous version typed
+   * "Ακμή" and "Ψωρίαση" as MedicalTherapy — a disease declared as a treatment,
+   * which misdescribes the practice to anything reading the graph.
+   */
+  knowsAbout: [
     "Κλινική Δερματολογία",
     "Ακμή",
     "Ψωρίαση",
@@ -100,7 +127,13 @@ const jsonLd = {
     "Παθήσεις Τριχών",
     "Παθήσεις Ονύχων",
     "Παιδιατρική Δερματολογία",
-  ].map((s) => ({ "@type": "MedicalTherapy", name: s })),
+  ],
+  availableService: [
+    { "@type": "MedicalProcedure", name: "Κλινική δερματολογική εξέταση" },
+    { "@type": "MedicalProcedure", name: "Δερματοσκόπηση σπίλων" },
+    { "@type": "MedicalProcedure", name: "Έλεγχος τριχωτού κεφαλής" },
+    { "@type": "MedicalProcedure", name: "Εκτίμηση παθήσεων ονύχων" },
+  ],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -120,10 +153,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Μετάβαση στο περιεχόμενο
         </a>
-        <Preloader />
         <ScrollProgress />
         <Cursor />
         <SmoothScroll>{children}</SmoothScroll>
+        <MobileCallBar />
       </body>
     </html>
   );

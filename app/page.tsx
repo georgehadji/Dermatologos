@@ -1,4 +1,5 @@
 import Nav from "@/components/Nav";
+import Preloader from "@/components/Preloader";
 import Footer from "@/components/Footer";
 import Hero from "@/components/sections/Hero";
 import DoctorIntro from "@/components/sections/DoctorIntro";
@@ -12,6 +13,12 @@ import ContactBlock from "@/components/sections/ContactBlock";
 export default function Home() {
   return (
     <>
+      {/*
+        Homepage only. The intro sets the tone for someone arriving at the
+        practice; on an article or a condition page it is a curtain between the
+        visitor and the answer they came for.
+      */}
+      <Preloader />
       <Nav />
       <main id="main">
         <Hero />

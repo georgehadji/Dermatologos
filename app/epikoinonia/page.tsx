@@ -5,13 +5,13 @@ import PageHero, { breadcrumbJsonLd, type Crumb } from "@/components/PageHero";
 import JsonLd from "@/components/JsonLd";
 import ContactForm from "@/components/ContactForm";
 import ContactBlock from "@/components/sections/ContactBlock";
-import { SITE_URL, doctor } from "@/lib/site";
+import { SITE_URL, doctor, pageMetadata } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Επικοινωνία | Δερματολόγος Περαία Θεσσαλονίκης",
   description: `Δερματολογικό ιατρείο, ${doctor.addressLine}. Τηλέφωνο ${doctor.phoneDisplay}. ${doctor.hours.label} ${doctor.hours.open}–${doctor.hours.close}, ${doctor.hours.note}.`,
-  alternates: { canonical: `${SITE_URL}/epikoinonia` },
-};
+  path: "/epikoinonia",
+});
 
 const crumbs: Crumb[] = [{ label: "Επικοινωνία", href: "/epikoinonia" }];
 
@@ -68,7 +68,7 @@ export default function EpikoinoniaPage() {
                 href={`tel:${doctor.phone}`}
                 data-cursor="call"
                 data-cursor-label="Κλήση"
-                className="display mt-8 inline-block text-[clamp(1.5rem,3.5vw,2.25rem)] transition-colors duration-300 hover:text-accent"
+                className="display mt-8 inline-block text-[clamp(1.5rem,3.5vw,2.25rem)] transition-colors t-quick hover:text-accent"
               >
                 {doctor.phoneDisplay}
               </a>

@@ -4,15 +4,14 @@ import Footer from "@/components/Footer";
 import PageHero, { breadcrumbJsonLd, type Crumb } from "@/components/PageHero";
 import JsonLd from "@/components/JsonLd";
 import LegalBody from "@/components/LegalBody";
-import { SITE_URL, contactEmail, doctor } from "@/lib/site";
+import { SITE_URL, contactEmail, doctor, pageMetadata } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Πολιτική Απορρήτου",
+export const metadata: Metadata = pageMetadata({
+  title: "Πολιτική Απορρήτου | Αθ. Χρυσοσπάθης",
   description:
     "Πώς συλλέγονται, χρησιμοποιούνται και προστατεύονται τα προσωπικά δεδομένα των επισκεπτών της ιστοσελίδας.",
-  alternates: { canonical: `${SITE_URL}/politiki-aporritou` },
-  robots: { index: true, follow: true },
-};
+  path: "/politiki-aporritou",
+});
 
 const crumbs: Crumb[] = [{ label: "Πολιτική Απορρήτου", href: "/politiki-aporritou" }];
 

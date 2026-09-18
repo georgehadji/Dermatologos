@@ -6,15 +6,15 @@ import JsonLd from "@/components/JsonLd";
 import DoctorIntro from "@/components/sections/DoctorIntro";
 import VisitSteps from "@/components/sections/VisitSteps";
 import ContactBlock from "@/components/sections/ContactBlock";
-import { SITE_URL, doctor } from "@/lib/site";
+import { SITE_URL, doctor, pageMetadata } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: `Ο Ιατρός — ${doctor.name} | Δερματολόγος Περαία`,
   description: `${doctor.name}, ${doctor.specialty}. ${doctor.credentials.join(
     " · "
   )}. Δερματολογικό ιατρείο στην Περαία Θεσσαλονίκης.`,
-  alternates: { canonical: `${SITE_URL}/iatros` },
-};
+  path: "/iatros",
+});
 
 const crumbs: Crumb[] = [{ label: "Ο Ιατρός", href: "/iatros" }];
 

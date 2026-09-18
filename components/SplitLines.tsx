@@ -32,6 +32,13 @@ export default function SplitLines({
 
     let split: SplitText | null = null;
     let tween: gsap.core.Tween | null = null;
+    let watchdog = 0;
+
+    const teardown = () => {
+      window.clearTimeout(watchdog);
+      tween?.kill();
+      split?.revert();
+    };
 
     const play = () => {
       try {
@@ -61,7 +68,7 @@ export default function SplitLines({
       // Watchdog. `from()` hides the lines the instant the tween is built, so a
       // tween that never advances would leave the heading permanently blank.
       // If nothing has moved after 4s, snap it to the finished state.
-      window.setTimeout(() => {
+      watchdog = window.setTimeout(() => {
         if (tween && tween.progress() === 0) tween.progress(1);
       }, 4000);
     };
@@ -70,10 +77,7 @@ export default function SplitLines({
     // before this mounted; in that case the event will never come.
     if (waitFor && document.documentElement.dataset.intro === "done") {
       play();
-      return () => {
-        tween?.kill();
-        split?.revert();
-      };
+      return teardown;
     }
 
     if (waitFor) {
@@ -87,16 +91,12 @@ export default function SplitLines({
       return () => {
         window.clearTimeout(t);
         window.removeEventListener(waitFor, onDone);
-        tween?.kill();
-        split?.revert();
+        teardown();
       };
     }
 
     play();
-    return () => {
-      tween?.kill();
-      split?.revert();
-    };
+    return teardown;
   }, [waitFor, delay]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

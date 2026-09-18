@@ -267,7 +267,6 @@ export default function ContactForm() {
         <button
           type="submit"
           disabled={status === "sending"}
-          data-cursor="link"
           className="press group relative cursor-pointer overflow-hidden rounded-full bg-accent px-8 py-4 font-semibold text-paper transition-colors t-quick hover:bg-ink disabled:cursor-wait disabled:opacity-70"
         >
           <span className="relative z-10">

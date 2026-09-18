@@ -44,7 +44,6 @@ export default function EpikoinoniaPage() {
         <JsonLd data={contactPage} />
 
         <PageHero
-          eyebrow="Επικοινωνία"
           title={
             <>
               Ας μιλήσουμε
@@ -66,8 +65,6 @@ export default function EpikoinoniaPage() {
               </p>
               <a
                 href={`tel:${doctor.phone}`}
-                data-cursor="call"
-                data-cursor-label="Κλήση"
                 className="display mt-8 inline-block text-[clamp(1.5rem,3.5vw,2.25rem)] transition-colors t-quick hover:text-accent"
               >
                 {doctor.phoneDisplay}

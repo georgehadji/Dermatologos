@@ -1,55 +1,39 @@
 import Link from "next/link";
-import FooterCaustics from "./webgl/FooterCaustics";
 import { ArrowRightIcon, ClockIcon, MapPinIcon, PhoneIcon } from "./Icon";
 import Year from "./Year";
 import { doctor, legalNav, mapsLink, nav } from "@/lib/site";
 
-/**
- * `isolate` is load-bearing. The caustics canvas sits at `-z-10`, and a
- * negative z-index child only paints above its parent's own background when
- * that parent is a stacking context. Without it the canvas falls behind the
- * page background and the whole footer renders as light text on cream.
+/*
+ * Flat ink. There used to be a WebGL caustics shader here, and beneath it a
+ * hand-tuned scrim holding the surface dark enough for body copy to clear
+ * 4.5:1 — a gradient that existed only to undo the shader. Both are gone, and
+ * the contrast is now whatever `--color-ink` says it is.
  */
 export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative isolate overflow-hidden bg-ink text-paper">
-      <FooterCaustics className="absolute inset-0 -z-10" />
-
-      {/*
-        The caustic crests lift the background toward the accent, which drags
-        small paper-coloured text under 4.5:1. This scrim holds the surface
-        dark enough for body copy while the light still reads at the top edge.
-      */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10"
-        style={{
-          // rgb(16 22 26) is --color-ink; a gradient needs the channels, not the token.
-          background:
-            "linear-gradient(to bottom, rgb(16 22 26 / 0) 0%, rgb(16 22 26 / 0.5) 14%, rgb(16 22 26 / 0.84) 46%, rgb(16 22 26 / 0.95) 100%)",
-        }}
-      />
-
+    <footer className="relative overflow-hidden bg-ink text-paper">
       {/* max-md:pb-36 clears the fixed mobile call bar. */}
       <div className="shell relative py-20 max-md:pb-36 md:py-28">
         {/* ——— Action band: the one thing a visitor at the bottom still needs ——— */}
         <div className="grid gap-10 border-b border-paper/15 pb-12 md:grid-cols-12 md:items-end md:gap-8">
           <div className="md:col-span-7">
-            <p className="eyebrow !text-accent-2">Με ή χωρίς ραντεβού</p>
-            <p className="display mt-4 text-[clamp(1.75rem,4vw,2.75rem)] leading-[1.12]">
-              Το ιατρείο δέχεται {doctor.hours.label.toLowerCase()}
-              <br />
-              {doctor.hours.open}–{doctor.hours.close}.
+            {/* The appointment policy was an eyebrow above this line. It is a
+                fact about the practice, so it belongs in the sentence. */}
+            <p className="display text-[clamp(1.75rem,4vw,2.75rem)] leading-[1.12]">
+              Το ιατρείο δέχεται {doctor.hours.label.toLowerCase()}{" "}
+              {/* The range is one token to the reader; it must not break across lines. */}
+              <span className="whitespace-nowrap">
+                {doctor.hours.open}–{doctor.hours.close},
+              </span>{" "}
+              <span className="text-accent-2">{doctor.hours.note}</span>.
             </p>
           </div>
 
           <div className="flex flex-wrap gap-3 md:col-span-5 md:justify-end">
             <a
               href={`tel:${doctor.phone}`}
-              data-cursor="call"
-              data-cursor-label="Κλήση"
               className="press inline-flex min-h-12 items-center gap-2.5 rounded-full bg-accent-2 px-6 py-3 font-semibold text-ink transition-colors t-quick hover:bg-paper"
             >
               <PhoneIcon className="size-4" />
@@ -59,7 +43,6 @@ export default function Footer() {
               href={mapsLink}
               target="_blank"
               rel="noopener noreferrer"
-              data-cursor="link"
               className="press inline-flex min-h-12 items-center gap-2.5 rounded-full border border-paper/30 px-6 py-3 font-medium text-paper transition-colors t-quick hover:border-paper hover:bg-paper/10"
             >
               <MapPinIcon className="size-4" />
@@ -74,7 +57,7 @@ export default function Footer() {
             <p className="display text-[clamp(1.75rem,4vw,2.5rem)] leading-[1.05]">
               {doctor.firstName}
               <br />
-              <span className="italic text-accent-2">{doctor.lastName}</span>
+              <span className="not-italic text-accent-2">{doctor.lastName}</span>
             </p>
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-paper/70">
               {doctor.specialty}
@@ -115,7 +98,6 @@ export default function Footer() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    data-cursor="link"
                     className="group inline-flex min-h-11 items-center gap-2 py-2.5 text-paper/85 transition-colors t-quick hover:text-accent-2"
                   >
                     <ArrowRightIcon className="size-3.5 -translate-x-1 opacity-0 transition t-base group-hover:translate-x-0 group-hover:opacity-100" />

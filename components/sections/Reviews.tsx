@@ -1,4 +1,3 @@
-import Reveal from "@/components/Reveal";
 import { doctor } from "@/lib/site";
 
 /**
@@ -28,9 +27,9 @@ export default function Reviews() {
           and a headline about trust is the site claiming a quality rather than
           showing it. The eyebrow keeps the section labelled.
         */}
-        <p className="eyebrow">Διαπιστεύσεις</p>
+        <h2 className="eyebrow">Διαπιστεύσεις</h2>
 
-        <Reveal className="mt-10">
+        <div className="mt-10">
           <dl className="border-t border-line">
             {record.map((row) => (
               <div
@@ -63,7 +62,6 @@ export default function Reviews() {
               href={doctor.sourceUrl}
               target="_blank"
               rel="noopener noreferrer"
-              data-cursor="link"
               className="inline-flex min-h-11 items-center gap-2 font-semibold text-accent link-line-on link-line"
             >
               Δείτε ή καταθέστε αξιολόγηση
@@ -78,7 +76,7 @@ export default function Reviews() {
               </svg>
             </a>
           </div>
-        </Reveal>
+        </div>
       </div>
     </section>
   );

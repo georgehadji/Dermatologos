@@ -7,18 +7,6 @@ import { doctor, mapsLink } from "@/lib/site";
 import { getOpenState, type OpenState } from "@/lib/hours";
 import { PRELOADER_DONE, isPreloaderDone } from "@/components/Preloader";
 import { ArrowRightIcon, MapPinIcon, PhoneIcon } from "@/components/Icon";
-import dynamic from "next/dynamic";
-
-/*
- * Split out of the initial chunk. `three` plus @react-three/fiber is the
- * heaviest dependency on the site and `useWebGLReady` only defers *rendering*
- * the canvas, never *loading* the module — so without this every visitor paid
- * for it, reduced-motion and WebGL-less browsers included.
- */
-const HeroCanvas = dynamic(() => import("@/components/webgl/HeroCanvas"), {
-  ssr: false,
-});
-import Magnetic from "@/components/Magnetic";
 import SplitLines from "@/components/SplitLines";
 
 export default function Hero() {
@@ -57,18 +45,19 @@ export default function Hero() {
       ref={root}
       className="intro-stage relative flex min-h-[100svh] flex-col justify-end overflow-hidden pb-14 pt-32"
     >
-      <HeroCanvas className="absolute inset-0 -z-10" />
+      {/*
+        The wash used to be a WebGL shader. Once it settled it was a static
+        gradient at every viewport, so it is a static gradient now — the same
+        picture without `three` in the bundle.
+      */}
+      <div aria-hidden className="hero-wash pointer-events-none absolute inset-0 -z-10" />
 
       <div className="shell">
-        <p className="intro-item eyebrow" style={{ "--i": 0 } as React.CSSProperties}>
-          Δερματολογικό Ιατρείο · Περαία Θεσσαλονίκης
-        </p>
-
         <SplitLines
           as="h1"
           waitFor={PRELOADER_DONE}
           delay={0.15}
-          className="display mt-6 text-[clamp(3rem,11vw,10rem)]"
+          className="display text-[clamp(3rem,11vw,10rem)]"
         >
           {doctor.firstName}
           <br />
@@ -78,13 +67,13 @@ export default function Hero() {
         <div className="mt-10 grid gap-8 border-t border-line pt-8 md:grid-cols-12">
           <p
             className="intro-item text-sm font-semibold uppercase tracking-[0.14em] text-ink md:col-span-3"
-            style={{ "--i": 4 } as React.CSSProperties}
+            style={{ "--i": 0 } as React.CSSProperties}
           >
             {doctor.specialty}
           </p>
           <ul
             className="intro-item space-y-1.5 text-ink-2 md:col-span-4"
-            style={{ "--i": 5 } as React.CSSProperties}
+            style={{ "--i": 1 } as React.CSSProperties}
           >
             {doctor.credentials.map((c) => (
               <li key={c}>{c}</li>
@@ -94,7 +83,7 @@ export default function Hero() {
             For a walk-in practice the product is where and when. That belongs in
             the first viewport, not a sentence about philosophy.
           */}
-          <div className="intro-item md:col-span-5" style={{ "--i": 6 } as React.CSSProperties}>
+          <div className="intro-item md:col-span-5" style={{ "--i": 2 } as React.CSSProperties}>
             <p className="text-ink">
               {doctor.address.street}, {doctor.address.area} {doctor.address.postal}
             </p>
@@ -105,7 +94,6 @@ export default function Hero() {
               href={mapsLink}
               target="_blank"
               rel="noopener noreferrer"
-              data-cursor="link"
               className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-accent link-line-on link-line"
             >
               <MapPinIcon className="size-4" />
@@ -115,24 +103,19 @@ export default function Hero() {
         </div>
 
         <div className="mt-12 flex flex-wrap items-center gap-5">
-          <Magnetic strength={14}>
-            <a
-              href={`tel:${doctor.phone}`}
-              data-cursor="call"
-              data-cursor-label="Κλήση"
-              className="press intro-item inline-flex items-center gap-2.5 rounded-full bg-accent px-8 py-4 font-semibold text-paper transition-colors t-quick hover:bg-ink"
-              style={{ "--i": 7 } as React.CSSProperties}
-            >
-              <PhoneIcon className="size-4" />
-              {doctor.phoneDisplay}
-            </a>
-          </Magnetic>
+          <a
+            href={`tel:${doctor.phone}`}
+            className="press intro-item inline-flex items-center gap-2.5 rounded-full bg-accent px-8 py-4 font-semibold text-paper transition-colors t-quick hover:bg-ink"
+            style={{ "--i": 3 } as React.CSSProperties}
+          >
+            <PhoneIcon className="size-4" />
+            {doctor.phoneDisplay}
+          </a>
 
           <Link
             href="/patheseis"
-            data-cursor="link"
             className="intro-item group inline-flex items-center gap-3 text-sm font-semibold text-ink"
-            style={{ "--i": 8 } as React.CSSProperties}
+            style={{ "--i": 4 } as React.CSSProperties}
           >
             Δείτε τις παθήσεις
             <span className="grid size-9 place-items-center rounded-full border border-line transition-[background-color,border-color,transform] t-slow group-hover:translate-x-1 group-hover:border-accent group-hover:bg-accent">
@@ -147,7 +130,7 @@ export default function Hero() {
           <span
             aria-live="polite"
             className="intro-item inline-flex min-h-[42px] min-w-[16rem] items-center gap-2.5 rounded-full border border-line xl:hidden bg-paper-2/70 px-4 py-2.5 text-sm text-ink-2 backdrop-blur"
-            style={{ "--i": 9, visibility: state ? "visible" : "hidden" } as React.CSSProperties}
+            style={{ "--i": 5, visibility: state ? "visible" : "hidden" } as React.CSSProperties}
           >
             {state && (
               <>
@@ -171,7 +154,7 @@ export default function Hero() {
 
       <div
         className="intro-item shell mt-16 flex items-center gap-3 text-xs uppercase tracking-[0.18em] text-ink-3"
-        style={{ "--i": 10 } as React.CSSProperties}
+        style={{ "--i": 6 } as React.CSSProperties}
       >
         <span className="relative block h-10 w-px overflow-hidden bg-line" aria-hidden>
           <span className="absolute inset-x-0 top-0 h-4 animate-[scrollhint_2.2s_cubic-bezier(0.16,1,0.3,1)_infinite] bg-accent" />

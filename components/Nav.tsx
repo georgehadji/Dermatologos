@@ -6,7 +6,6 @@ import { useEffect, useRef, useState } from "react";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { doctor, nav } from "@/lib/site";
 import { getOpenState, type OpenState } from "@/lib/hours";
-import Magnetic from "./Magnetic";
 
 export default function Nav() {
   const bar = useRef<HTMLElement>(null);
@@ -100,7 +99,7 @@ export default function Nav() {
         className="fixed inset-x-0 top-0 z-[80] transition-colors t-quick [&.is-stuck]:bg-paper/85 [&.is-stuck]:backdrop-blur-xl"
       >
         <div className="shell flex items-center justify-between gap-6 py-5">
-          <Link href="/" data-cursor="link" className="group flex flex-col leading-none">
+          <Link href="/" className="group flex flex-col leading-none">
             <span className="display text-xl tracking-tight md:text-2xl">
               Αθ. Χρυσοσπάθης
             </span>
@@ -114,7 +113,6 @@ export default function Nav() {
               <Link
                 key={item.href}
                 href={item.href}
-                data-cursor="link"
                 aria-current={pathname === item.href ? "page" : undefined}
                 className="group relative py-2 text-sm font-medium text-ink-2 transition-colors hover:text-ink aria-[current=page]:text-accent"
               >
@@ -142,16 +140,14 @@ export default function Nav() {
               )}
             </span>
 
-            <Magnetic strength={10}>
-              <a
-                href={`tel:${doctor.phone}`}
-                data-cursor="call"
-                data-cursor-label="Κλήση"
-                className="press hidden rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-paper transition-colors t-quick hover:bg-ink md:inline-block"
-              >
-                {doctor.phoneDisplay}
-              </a>
-            </Magnetic>
+            {/* Not magnetic. The phone number is the one thing on the page that
+                must never move away from the pointer reaching for it. */}
+            <a
+              href={`tel:${doctor.phone}`}
+              className="press hidden rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-paper transition-colors t-quick hover:bg-ink md:inline-block"
+            >
+              {doctor.phoneDisplay}
+            </a>
 
             <button
               ref={toggleRef}

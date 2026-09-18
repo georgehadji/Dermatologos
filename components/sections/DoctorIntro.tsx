@@ -1,7 +1,5 @@
 import Link from "next/link";
 import LensReveal from "@/components/LensReveal";
-import Reveal from "@/components/Reveal";
-import SplitLines from "@/components/SplitLines";
 import { conditions, doctor } from "@/lib/site";
 
 export default function DoctorIntro({ full = false }: { full?: boolean }) {
@@ -20,14 +18,12 @@ export default function DoctorIntro({ full = false }: { full?: boolean }) {
         </div>
 
         <div className="md:col-span-7 md:pl-8">
-          <p className="eyebrow">Ο Ιατρός</p>
-
-          <SplitLines as="h2" className="display mt-5 text-[clamp(2.25rem,6vw,4.5rem)]">
+          <h2 className="display text-[clamp(2.25rem,6vw,4.5rem)]">
             {doctor.firstName}{" "}
             <em className="not-italic text-accent">{doctor.lastName}</em>
-          </SplitLines>
+          </h2>
 
-          <Reveal className="mt-8 space-y-5 text-lg leading-relaxed text-ink-2">
+          <div className="mt-8 space-y-5 text-lg leading-relaxed text-ink-2">
             <p>
               Δερματολόγος — Αφροδισιολόγος, Διδάκτωρ του Δημοκρίτειου Πανεπιστημίου
               Θράκης και πρώην Διευθυντής της Δερματολογικής Κλινικής του 424 Γενικού
@@ -56,21 +52,22 @@ export default function DoctorIntro({ full = false }: { full?: boolean }) {
                 </p>
               </>
             )}
-          </Reveal>
+          </div>
 
-          <Reveal as="ul" stagger className="mt-12 grid grid-cols-2 gap-px border border-line bg-line sm:grid-cols-3">
+          {/*
+            Two stats, not three. The third was the 5.0 rating, rendered at
+            display size in accent — off a single review. Reviews.tsx says in
+            its own docblock that showing it that way overclaims; this section
+            was doing exactly that, two screens above.
+          */}
+          <ul className="mt-12 grid grid-cols-2 gap-px border border-line bg-line">
             <Stat value={String(conditions.length)} label="Πεδία κλινικής δερματολογίας" />
             <Stat value={`${doctor.hours.open}–${doctor.hours.close}`} label="Καθημερινά, με ή χωρίς ραντεβού" />
-            <Stat
-              value={doctor.rating.value.toFixed(1)}
-              label={`Αξιολόγηση (${doctor.rating.count})`}
-            />
-          </Reveal>
+          </ul>
 
           {!full && (
             <Link
               href="/iatros"
-              data-cursor="link"
               className="mt-10 inline-flex items-center gap-3 text-sm font-semibold text-accent link-line-on link-line"
             >
               Περισσότερα για τον ιατρό

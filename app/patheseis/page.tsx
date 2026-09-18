@@ -38,7 +38,6 @@ export default function PatheseisPage() {
         <JsonLd data={breadcrumbJsonLd(crumbs, SITE_URL)} />
         <JsonLd data={collection} />
         <PageHero
-          eyebrow="Κλινικό αντικείμενο"
           title={
             <>
               Παθήσεις &amp;

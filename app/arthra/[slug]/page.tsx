@@ -5,7 +5,6 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import PageHero, { breadcrumbJsonLd, type Crumb } from "@/components/PageHero";
 import JsonLd from "@/components/JsonLd";
-import Reveal from "@/components/Reveal";
 import ContactBlock from "@/components/sections/ContactBlock";
 import { SITE_URL, conditions, doctor } from "@/lib/site";
 import { articles, type Block } from "@/lib/articles";
@@ -114,7 +113,7 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
 
         <article className="section-y">
           <div className="shell grid gap-12 md:grid-cols-12">
-            <Reveal className="md:col-span-8 md:col-start-3">
+            <div className="md:col-span-8 md:col-start-3">
               <p className="display text-[clamp(1.35rem,2.6vw,1.85rem)] leading-[1.45] text-ink">
                 {a.excerpt}
               </p>
@@ -133,7 +132,6 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
                       <li key={c.slug}>
                         <Link
                           href={`/patheseis/${c.slug}`}
-                          data-cursor="link"
                           className="press inline-block rounded-full border border-line px-4 py-2 text-sm text-ink-2 transition-colors t-quick hover:border-accent hover:text-accent"
                         >
                           {c.title}
@@ -146,8 +144,6 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
 
               <Link
                 href={`/arthra/${next.slug}`}
-                data-cursor="link"
-                data-cursor-label="Επόμενο"
                 className="group mt-16 block border-t border-line pt-8"
               >
                 <p className="eyebrow">Επόμενο άρθρο</p>
@@ -155,7 +151,7 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
                   {next.title}
                 </p>
               </Link>
-            </Reveal>
+            </div>
           </div>
         </article>
 

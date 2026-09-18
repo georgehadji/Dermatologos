@@ -176,6 +176,25 @@
     border-top: 1px solid var(--color-line);
   }
 
+  /*
+   * Homepage hero wash. Two soft radials over the paper, drawn from the same
+   * tokens as everything else — the WebGL shader this replaces carried its own
+   * copies of the palette as raw hex, which is how a palette drifts.
+   */
+  .hero-wash {
+    background:
+      radial-gradient(
+        48% 46% at 78% 22%,
+        color-mix(in srgb, var(--color-skin-1) 34%, transparent) 0%,
+        transparent 66%
+      ),
+      radial-gradient(
+        34% 32% at 92% 6%,
+        color-mix(in srgb, var(--color-accent-2) 10%, transparent) 0%,
+        transparent 64%
+      );
+  }
+
   /* Paper grain — pure CSS, no image request */
   .grain::after {
     content: "";
@@ -226,30 +245,10 @@
   animation-delay: calc(var(--i, 0) * 70ms + var(--d, 0ms));
 }
 
-.reveal-item.is-revealed {
-  animation: intro-up 1s var(--ease-expo) both;
-  animation-delay: calc(var(--i, 0) * 80ms);
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .intro-stage.is-intro .intro-item,
-  .reveal-item.is-revealed {
+  .intro-stage.is-intro .intro-item {
     animation: none;
   }
-}
-
-/* ——— Reveal primitives driven by GSAP ——— */
-.r-line {
-  display: block;
-  overflow: hidden;
-}
-.r-line > span {
-  display: block;
-  will-change: transform;
-}
-
-.magnetic {
-  will-change: transform;
 }
 
 @keyframes scrollhint {
@@ -264,8 +263,5 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-  .r-line > span {
-    transform: none !important;
   }
 }

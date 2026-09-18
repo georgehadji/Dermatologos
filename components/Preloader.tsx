@@ -26,8 +26,6 @@ const seenThisSession = () => {
 
 export default function Preloader() {
   const root = useRef<HTMLDivElement>(null);
-  const count = useRef<HTMLSpanElement>(null);
-  const bar = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const finish = () => {
@@ -46,7 +44,6 @@ export default function Preloader() {
     getLenis()?.stop();
     document.body.style.overflow = "hidden";
 
-    const n = { v: 0 };
     const tl = gsap.timeline({
       onComplete: () => {
         document.body.style.overflow = "";
@@ -60,17 +57,13 @@ export default function Preloader() {
       },
     });
 
-    tl.to(n, {
-      v: 100,
-      duration: 0.6,
-      ease: "power2.inOut",
-      onUpdate: () => {
-        const v = Math.round(n.v);
-        if (count.current) count.current.textContent = String(v).padStart(3, "0");
-        if (bar.current) bar.current.style.transform = `scaleX(${n.v / 100})`;
-      },
-    })
-      .to(".pre-word", { yPercent: -110, duration: 0.5, stagger: 0.05, ease: "expo.inOut" }, "-=0.2")
+    /*
+     * No progress counter. There was one, tweening 000→100 over 600ms while
+     * measuring nothing — a number invented to look like loading. What is left
+     * is the wipe itself, and it is short: the practice's phone number is
+     * behind this curtain.
+     */
+    tl.to(".pre-word", { yPercent: -110, duration: 0.5, stagger: 0.05, ease: "expo.inOut" })
       .to(root.current, { yPercent: -100, duration: 0.7, ease: "expo.inOut" }, "-=0.35")
       .set(root.current, { display: "none" });
 
@@ -98,18 +91,13 @@ export default function Preloader() {
           <span className="block overflow-hidden">
             <span className="pre-word block">{doctor.firstName}</span>
           </span>
-          <span className="block overflow-hidden italic text-accent">
+          <span className="block overflow-hidden not-italic text-accent">
             <span className="pre-word block">{doctor.lastName}</span>
           </span>
         </p>
-        <span ref={count} className="font-sans text-[clamp(1rem,3vw,2rem)] tabular-nums text-ink-3">
-          000
-        </span>
       </div>
 
-      <div className="h-px w-full bg-line">
-        <div ref={bar} className="h-px w-full origin-left scale-x-0 bg-accent" />
-      </div>
+      <div aria-hidden className="h-px w-full bg-line" />
     </div>
   );
 }

@@ -42,7 +42,6 @@ export default function ArthraPage() {
         <JsonLd data={blog} />
 
         <PageHero
-          eyebrow="Αρθρογραφία"
           title={
             <>
               Επιστημονικά

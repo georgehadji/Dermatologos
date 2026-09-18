@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-import PageHero, { breadcrumbJsonLd, type Crumb } from "@/components/PageHero";
-import JsonLd from "@/components/JsonLd";
 import LegalBody from "@/components/LegalBody";
-import { SITE_URL, contactEmail, doctor, pageMetadata } from "@/lib/site";
+import { contactEmail, doctor, pageMetadata } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
   title: "Πολιτική Απορρήτου | Αθ. Χρυσοσπάθης",
@@ -13,22 +11,14 @@ export const metadata: Metadata = pageMetadata({
   path: "/politiki-aporritou",
 });
 
-const crumbs: Crumb[] = [{ label: "Πολιτική Απορρήτου", href: "/politiki-aporritou" }];
-
 export default function PrivacyPage() {
   return (
     <>
       <Nav />
       <main id="main">
-        <JsonLd data={breadcrumbJsonLd(crumbs, SITE_URL)} />
-        <PageHero
-          eyebrow="Νομικά"
-          title="Πολιτική Απορρήτου"
-          lead="Τελευταία ενημέρωση: Σεπτέμβριος 2026."
-          crumbs={crumbs}
-        />
-
         <LegalBody
+          title="Πολιτική Απορρήτου"
+          updated="Σεπτέμβριος 2026"
           sections={[
             {
               h: "1. Υπεύθυνος επεξεργασίας",

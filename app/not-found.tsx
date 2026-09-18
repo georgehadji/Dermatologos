@@ -26,7 +26,6 @@ export default function NotFound() {
             <li>
               <Link
                 href="/"
-                data-cursor="link"
                 className="press inline-block rounded-full bg-accent px-6 py-3 text-sm font-semibold text-paper transition-colors t-quick hover:bg-ink"
               >
                 Αρχική
@@ -36,7 +35,6 @@ export default function NotFound() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  data-cursor="link"
                   className="press inline-block rounded-full border border-line px-6 py-3 text-sm text-ink-2 transition-colors t-quick hover:border-accent hover:text-accent"
                 >
                   {item.label}

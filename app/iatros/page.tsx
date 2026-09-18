@@ -25,7 +25,6 @@ export default function IatrosPage() {
       <main id="main">
         <JsonLd data={breadcrumbJsonLd(crumbs, SITE_URL)} />
         <PageHero
-          eyebrow="Ο Ιατρός"
           title={
             <>
               Διάγνωση

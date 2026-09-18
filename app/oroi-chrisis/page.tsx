@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-import PageHero, { breadcrumbJsonLd, type Crumb } from "@/components/PageHero";
-import JsonLd from "@/components/JsonLd";
 import LegalBody from "@/components/LegalBody";
-import { SITE_URL, doctor, pageMetadata } from "@/lib/site";
+import { doctor, pageMetadata } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
   title: "Όροι Χρήσης | Αθ. Χρυσοσπάθης",
@@ -13,22 +11,14 @@ export const metadata: Metadata = pageMetadata({
   path: "/oroi-chrisis",
 });
 
-const crumbs: Crumb[] = [{ label: "Όροι Χρήσης", href: "/oroi-chrisis" }];
-
 export default function TermsPage() {
   return (
     <>
       <Nav />
       <main id="main">
-        <JsonLd data={breadcrumbJsonLd(crumbs, SITE_URL)} />
-        <PageHero
-          eyebrow="Νομικά"
-          title="Όροι Χρήσης"
-          lead="Τελευταία ενημέρωση: Σεπτέμβριος 2026."
-          crumbs={crumbs}
-        />
-
         <LegalBody
+          title="Όροι Χρήσης"
+          updated="Σεπτέμβριος 2026"
           sections={[
             {
               h: "1. Αποδοχή των όρων",

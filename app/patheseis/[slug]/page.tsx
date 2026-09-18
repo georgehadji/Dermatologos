@@ -5,7 +5,6 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import PageHero, { breadcrumbJsonLd, type Crumb } from "@/components/PageHero";
 import JsonLd from "@/components/JsonLd";
-import Reveal from "@/components/Reveal";
 import ContactBlock from "@/components/sections/ContactBlock";
 import { SITE_URL, conditions, doctor } from "@/lib/site";
 import { articles } from "@/lib/articles";
@@ -80,7 +79,6 @@ export default async function ConditionPage({ params }: { params: Promise<Params
         <JsonLd data={medical} />
 
         <PageHero
-          eyebrow={`Πάθηση ${c.n}`}
           title={c.title}
           lead={c.intro}
           crumbs={crumbs}
@@ -88,7 +86,7 @@ export default async function ConditionPage({ params }: { params: Promise<Params
 
         <section className="section-y">
           <div className="shell grid gap-14 md:grid-cols-12">
-            <Reveal className="md:col-span-6">
+            <div className="md:col-span-6">
               <h2 className="display text-3xl md:text-4xl">Τι παρατηρείτε</h2>
               <ul className="mt-8 space-y-px border-y border-line">
                 {c.symptoms.map((s) => (
@@ -98,9 +96,9 @@ export default async function ConditionPage({ params }: { params: Promise<Params
                   </li>
                 ))}
               </ul>
-            </Reveal>
+            </div>
 
-            <Reveal className="md:col-span-6">
+            <div className="md:col-span-6">
               <h2 className="display text-3xl md:text-4xl">Πότε να απευθυνθείτε σε ιατρό</h2>
               <ul className="mt-8 space-y-px border-y border-line">
                 {c.whenToVisit.map((s) => (
@@ -110,7 +108,7 @@ export default async function ConditionPage({ params }: { params: Promise<Params
                   </li>
                 ))}
               </ul>
-            </Reveal>
+            </div>
           </div>
         </section>
 
@@ -121,7 +119,7 @@ export default async function ConditionPage({ params }: { params: Promise<Params
               <br />
               στο ιατρείο
             </h2>
-            <Reveal className="md:col-span-8">
+            <div className="md:col-span-8">
               <p className="max-w-2xl text-lg leading-relaxed text-ink-2 md:text-xl">
                 {c.approach}
               </p>
@@ -130,7 +128,7 @@ export default async function ConditionPage({ params }: { params: Promise<Params
                 υποκαθιστούν την κλινική εξέταση. Η διάγνωση και η θεραπεία
                 εξατομικεύονται σε κάθε περιστατικό.
               </p>
-            </Reveal>
+            </div>
           </div>
         </section>
 
@@ -143,7 +141,6 @@ export default async function ConditionPage({ params }: { params: Promise<Params
                   <li key={a.slug}>
                     <Link
                       href={`/arthra/${a.slug}`}
-                      data-cursor="link"
                       className="press-sm group flex flex-col gap-2 border-b border-line py-7 md:flex-row md:items-baseline md:justify-between md:gap-10"
                     >
                       <span className="display text-2xl transition-transform t-slow group-hover:translate-x-2 md:text-3xl">
@@ -164,8 +161,6 @@ export default async function ConditionPage({ params }: { params: Promise<Params
           <div className="shell">
             <Link
               href={`/patheseis/${next.slug}`}
-              data-cursor="link"
-              data-cursor-label="Επόμενο"
               className="group block border-t border-line pt-8"
             >
               <p className="eyebrow">Επόμενη πάθηση</p>

@@ -1,15 +1,33 @@
-import Reveal from "./Reveal";
-
 export type LegalSection = {
   h: string;
   p: readonly string[];
   ul?: readonly string[];
 };
 
-/** Shared long-form layout for the privacy policy and terms pages. */
-export default function LegalBody({ sections }: { sections: readonly LegalSection[] }) {
+/**
+ * Shared long-form layout for the privacy policy and terms pages.
+ *
+ * These two own their own head instead of using PageHero. Every other route on
+ * the site opened with the same 6rem display headline over the same wash, and
+ * a terms page announcing itself at hero scale was the clearest place that
+ * uniformity showed. Here the title sits at document scale, where it belongs.
+ */
+export default function LegalBody({
+  title,
+  updated,
+  sections,
+}: {
+  title: string;
+  updated: string;
+  sections: readonly LegalSection[];
+}) {
   return (
-    <section className="section-y">
+    <section className="section-y pt-36 md:pt-44">
+      <div className="shell mb-16 max-w-3xl border-b border-line pb-10 md:mb-20">
+        <h1 className="display text-[clamp(2rem,4.5vw,3rem)]">{title}</h1>
+        <p className="mt-4 text-sm text-ink-3">Τελευταία ενημέρωση: {updated}</p>
+      </div>
+
       <div className="shell grid gap-12 md:grid-cols-12">
         <nav aria-label="Περιεχόμενα" className="md:col-span-3">
           <p className="eyebrow">Περιεχόμενα</p>
@@ -29,7 +47,7 @@ export default function LegalBody({ sections }: { sections: readonly LegalSectio
 
         <div className="md:col-span-8 md:col-start-5">
           {sections.map((s) => (
-            <Reveal key={s.h} className="mb-14 scroll-mt-28" as="section">
+            <section key={s.h} className="mb-14 scroll-mt-28">
               <h2 id={slugify(s.h)} className="display scroll-mt-28 text-2xl md:text-3xl">
                 {s.h}
               </h2>
@@ -48,7 +66,7 @@ export default function LegalBody({ sections }: { sections: readonly LegalSectio
                   ))}
                 </ul>
               )}
-            </Reveal>
+            </section>
           ))}
         </div>
       </div>

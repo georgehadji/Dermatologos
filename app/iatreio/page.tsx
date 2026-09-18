@@ -4,7 +4,6 @@ import Footer from "@/components/Footer";
 import PageHero, { breadcrumbJsonLd, type Crumb } from "@/components/PageHero";
 import JsonLd from "@/components/JsonLd";
 import LensReveal from "@/components/LensReveal";
-import Reveal from "@/components/Reveal";
 import VisitSteps from "@/components/sections/VisitSteps";
 import ContactBlock from "@/components/sections/ContactBlock";
 import { SITE_URL, clinicImages, doctor, pageMetadata } from "@/lib/site";
@@ -25,7 +24,6 @@ export default function IatreioPage() {
         <JsonLd data={breadcrumbJsonLd(crumbs, SITE_URL)} />
 
         <PageHero
-          eyebrow="Ο χώρος"
           title={
             <>
               Το
@@ -38,7 +36,7 @@ export default function IatreioPage() {
 
         <section className="section-y">
           <div className="shell">
-            <Reveal as="ul" stagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {clinicImages.map((img, i) => (
                 <li key={img.src} className={i === 0 ? "sm:col-span-2" : undefined}>
                   <LensReveal
@@ -56,7 +54,7 @@ export default function IatreioPage() {
                   </p>
                 </li>
               ))}
-            </Reveal>
+            </ul>
 
           </div>
         </section>

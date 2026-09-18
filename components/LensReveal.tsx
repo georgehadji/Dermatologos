@@ -76,7 +76,6 @@ export default function LensReveal({
       onPointerDown={tap}
       onPointerEnter={enter}
       onPointerLeave={leave}
-      data-cursor="lens"
       className={`relative overflow-hidden bg-line/40 ${className ?? ""}`}
       style={
         {

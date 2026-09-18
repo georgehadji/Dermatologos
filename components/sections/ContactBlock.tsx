@@ -1,7 +1,4 @@
 import Link from "next/link";
-import Reveal from "@/components/Reveal";
-import SplitLines from "@/components/SplitLines";
-import Magnetic from "@/components/Magnetic";
 import { doctor, mapsEmbed, mapsLink } from "@/lib/site";
 import { ClockIcon, MapPinIcon, PhoneIcon } from "@/components/Icon";
 
@@ -10,14 +7,13 @@ export default function ContactBlock({ withForm = false }: { withForm?: boolean 
     <section id="epikoinonia" className="section-y bg-paper-2">
       <div className="shell grid gap-14 md:grid-cols-12">
         <div className="md:col-span-5">
-          <p className="eyebrow">Επικοινωνία</p>
-          <SplitLines as="h2" className="display mt-5 text-[clamp(2.25rem,6vw,4rem)]">
+          <h2 className="display text-[clamp(2.25rem,6vw,4rem)]">
             Περαία,
             <br />
             Θεσσαλονίκης
-          </SplitLines>
+          </h2>
 
-          <Reveal className="mt-10 space-y-8">
+          <div className="mt-10 space-y-8">
             <div>
               <p className="eyebrow flex items-center gap-2"><MapPinIcon className="size-3.5" />Διεύθυνση</p>
               <address className="mt-3 not-italic text-lg leading-relaxed text-ink">
@@ -29,7 +25,6 @@ export default function ContactBlock({ withForm = false }: { withForm?: boolean 
                 href={mapsLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                data-cursor="link"
                 className="mt-3 inline-block text-sm text-accent link-line-on link-line"
               >
                 Οδηγίες πρόσβασης
@@ -46,28 +41,23 @@ export default function ContactBlock({ withForm = false }: { withForm?: boolean 
 
             <div>
               <p className="eyebrow flex items-center gap-2"><PhoneIcon className="size-3.5" />Τηλέφωνο</p>
-              <Magnetic strength={12}>
-                <a
-                  href={`tel:${doctor.phone}`}
-                  data-cursor="call"
-                  data-cursor-label="Κλήση"
-                  className="display mt-3 inline-block text-[clamp(1.75rem,4vw,2.75rem)] text-ink transition-colors t-quick hover:text-accent"
-                >
-                  {doctor.phoneDisplay}
-                </a>
-              </Magnetic>
+              <a
+                href={`tel:${doctor.phone}`}
+                className="display mt-3 inline-block text-[clamp(1.75rem,4vw,2.75rem)] text-ink transition-colors t-quick hover:text-accent"
+              >
+                {doctor.phoneDisplay}
+              </a>
             </div>
 
             {!withForm && (
               <Link
                 href="/epikoinonia"
-                data-cursor="link"
                 className="press inline-flex items-center gap-3 rounded-full bg-accent px-7 py-3.5 font-semibold text-paper transition-colors t-quick hover:bg-ink"
               >
                 Φόρμα επικοινωνίας
               </Link>
             )}
-          </Reveal>
+          </div>
         </div>
 
         <div className="md:col-span-7">

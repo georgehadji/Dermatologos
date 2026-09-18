@@ -1,9 +1,15 @@
 import Link from "next/link";
-import SplitLines from "./SplitLines";
-import Reveal from "./Reveal";
 
 export type Crumb = { label: string; href: string };
 
+/*
+ * Flat paper and a hairline. There was a two-stop radial bloom behind every
+ * inner page — the same wash, eight times, which is how a signature turns into
+ * wallpaper. The homepage hero keeps its wash; the inner pages are quiet.
+ *
+ * `eyebrow` is optional now. On most pages the breadcrumb above already says
+ * where the reader is, so a kicker repeating it was label for label's sake.
+ */
 export default function PageHero({
   eyebrow,
   title,
@@ -11,24 +17,14 @@ export default function PageHero({
   crumbs = [],
   meta,
 }: {
-  eyebrow: string;
+  eyebrow?: string;
   title: React.ReactNode;
   lead?: string;
   crumbs?: Crumb[];
   meta?: React.ReactNode;
 }) {
   return (
-    <header className="relative overflow-hidden border-b border-line pb-16 pt-36 md:pb-24 md:pt-48">
-      {/* Soft echo of the home hero's shader, painted in CSS so inner pages stay light. */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10"
-        style={{
-          background:
-            "radial-gradient(52% 60% at 78% 10%, color-mix(in srgb, var(--color-skin-1) 55%, transparent) 0%, transparent 60%), radial-gradient(40% 50% at 12% 0%, color-mix(in srgb, var(--color-accent-2) 14%, transparent) 0%, transparent 62%)",
-        }}
-      />
-
+    <header className="border-b border-line pb-16 pt-36 md:pb-24 md:pt-48">
       <div className="shell">
         {crumbs.length > 0 && (
           <nav aria-label="Διαδρομή" className="mb-8">
@@ -54,16 +50,12 @@ export default function PageHero({
           </nav>
         )}
 
-        <p className="eyebrow">{eyebrow}</p>
+        {eyebrow && <p className="eyebrow mb-5">{eyebrow}</p>}
 
-        <SplitLines as="h1" className="display mt-5 max-w-[16ch] text-[clamp(2.5rem,8vw,6rem)]">
-          {title}
-        </SplitLines>
+        <h1 className="display max-w-[16ch] text-[clamp(2.5rem,8vw,6rem)]">{title}</h1>
 
         {lead && (
-          <Reveal>
-            <p className="mt-8 max-w-2xl text-lg leading-relaxed text-ink-2 md:text-xl">{lead}</p>
-          </Reveal>
+          <p className="mt-8 max-w-2xl text-lg leading-relaxed text-ink-2 md:text-xl">{lead}</p>
         )}
 
         {meta && <div className="mt-10">{meta}</div>}

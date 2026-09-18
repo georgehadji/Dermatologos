@@ -22,8 +22,16 @@ const background = `data:image/png;base64,${readFileSync(
   asset("public", "images", "og-background.png")
 ).toString("base64")}`;
 
+/*
+ * Satori has no CSSOM, so the palette cannot be read from `@theme` here — this
+ * is the one place the values are repeated. Mirror of app/globals.css; keep in
+ * sync. (`#8b949b` lived on here long after globals.css retired it at 2.83:1.)
+ */
 const PAPER = "#f7f5f0";
 const INK = "#10161a";
+const INK_2 = "#4a5560";
+const INK_3 = "#606a72";
+const LINE = "#e2ded4";
 const ACCENT = "#145e58";
 
 export function ogImage({
@@ -88,7 +96,7 @@ export function ogImage({
               style={{
                 fontSize: 21,
                 letterSpacing: 3.4,
-                color: "#4a5560",
+                color: INK_2,
               }}
             >
               {greekUpper(eyebrow)}
@@ -115,7 +123,7 @@ export function ogImage({
                   marginTop: 24,
                   fontSize: 27,
                   lineHeight: 1.4,
-                  color: "#4a5560",
+                  color: INK_2,
                   maxWidth: 820,
                 }}
               >
@@ -129,7 +137,7 @@ export function ogImage({
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              borderTop: "1px solid #e2ded4",
+              borderTop: `1px solid ${LINE}`,
               paddingTop: 26,
             }}
           >
@@ -137,7 +145,7 @@ export function ogImage({
               <div style={{ fontSize: 30, color: INK }}>
                 {title === doctor.name ? doctor.specialty : doctor.name}
               </div>
-              <div style={{ fontSize: 22, color: "#8b949b", marginTop: 6 }}>
+              <div style={{ fontSize: 22, color: INK_3, marginTop: 6 }}>
                 {title === doctor.name ? doctor.addressLine : doctor.specialty}
               </div>
             </div>
@@ -149,7 +157,7 @@ export function ogImage({
                 as a separate child and refuses a multi-child div that has no
                 explicit display.
               */}
-              <div style={{ fontSize: 20, color: "#8b949b", marginTop: 6 }}>
+              <div style={{ fontSize: 20, color: INK_3, marginTop: 6 }}>
                 {`${doctor.address.area}, ${doctor.address.region}`}
               </div>
             </div>

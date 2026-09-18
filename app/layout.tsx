@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { EB_Garamond, Manrope } from "next/font/google";
 import { SITE_URL, doctor, mapsLink } from "@/lib/site";
 import SmoothScroll from "@/components/SmoothScroll";
-import Cursor from "@/components/Cursor";
 import ScrollProgress from "@/components/ScrollProgress";
 import MobileCallBar from "@/components/MobileCallBar";
 import JsonLd from "@/components/JsonLd";
@@ -154,7 +153,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Μετάβαση στο περιεχόμενο
         </a>
         <ScrollProgress />
-        <Cursor />
         <SmoothScroll>{children}</SmoothScroll>
         <MobileCallBar />
       </body>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="Δερματολογικό ιατρείο Αθ. Χρυσοσπάθη">
+  <!--
+    A dermatoscope over a lesion: the site's own signature, since LensReveal
+    already puts that lens over every photograph.
+
+    Geometry, not type. A favicon drawn with <text> depends on a font the
+    browser may never load, and the practice's initial is Χ — which at 16px
+    reads as a Latin X, i.e. a close button.
+
+    Colours are the Clinical Editorial palette: accent on paper. Literal
+    values, because an SVG served as a favicon renders outside the page and
+    cannot see the site's custom properties.
+  -->
+  <rect width="32" height="32" rx="6" fill="#145e58" />
+  <circle cx="16" cy="16" r="10" fill="none" stroke="#f7f5f0" stroke-width="3" />
+  <circle cx="18.9" cy="18.8" r="3.1" fill="#f7f5f0" />
+</svg>

@@ -12,3 +12,6 @@ next-env.d.ts
 
 .vercel
 .env*
+
+# Plugin hook logs
+.claude/claudex/

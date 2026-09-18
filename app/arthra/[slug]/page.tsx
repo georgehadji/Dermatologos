@@ -97,6 +97,7 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
         <JsonLd data={schema} />
 
         <PageHero
+          compact
           eyebrow={a.category}
           title={a.title}
           crumbs={crumbs}

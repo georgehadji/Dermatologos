@@ -16,12 +16,19 @@ export default function PageHero({
   lead,
   crumbs = [],
   meta,
+  compact = false,
 }: {
   eyebrow?: string;
   title: React.ReactNode;
   lead?: string;
   crumbs?: Crumb[];
   meta?: React.ReactNode;
+  /**
+   * Article scale. A section title is two or three words and carries a 6rem
+   * display happily; an article headline is a sentence, and setting a sentence
+   * at 6rem is the same overclaim the legal pages used to make.
+   */
+  compact?: boolean;
 }) {
   return (
     <header className="border-b border-line pb-16 pt-36 md:pb-24 md:pt-48">
@@ -52,7 +59,15 @@ export default function PageHero({
 
         {eyebrow && <p className="eyebrow mb-5">{eyebrow}</p>}
 
-        <h1 className="display max-w-[16ch] text-[clamp(2.5rem,8vw,6rem)]">{title}</h1>
+        <h1
+          className={
+            compact
+              ? "display max-w-[26ch] text-[clamp(2rem,4.5vw,3.25rem)] leading-[1.1]"
+              : "display max-w-[16ch] text-[clamp(2.5rem,8vw,6rem)]"
+          }
+        >
+          {title}
+        </h1>
 
         {lead && (
           <p className="mt-8 max-w-2xl text-lg leading-relaxed text-ink-2 md:text-xl">{lead}</p>

@@ -99,12 +99,31 @@ export default function Nav() {
         className="fixed inset-x-0 top-0 z-[80] transition-colors t-quick [&.is-stuck]:bg-paper/85 [&.is-stuck]:backdrop-blur-xl"
       >
         <div className="shell flex items-center justify-between gap-6 py-5">
-          <Link href="/" className="group flex flex-col leading-none">
-            <span className="display text-xl tracking-tight md:text-2xl">
-              Αθ. Χρυσοσπάθης
-            </span>
-            <span className="mt-1 text-xs font-medium uppercase tracking-[0.16em] text-ink-3">
-              Δερματολόγος · Αφροδισιολόγος
+          <Link href="/" className="group flex items-center gap-3">
+            {/*
+              alt="" on purpose: the wordmark beside it already says the name, so
+              announcing the logo too would read the practice out twice. The
+              file is pre-trimmed with a transparent ground — the logo's native
+              cream would otherwise sit as a pale box on the paper.
+            */}
+            <img
+              src="/images/logo-mark.png"
+              alt=""
+              width={116}
+              height={128}
+              className="h-9 w-auto shrink-0 md:h-12"
+            />
+            <span className="flex flex-col leading-none">
+              <span className="display text-xl tracking-tight md:text-2xl">
+                Αθ. Χρυσοσπάθης
+              </span>
+              {/*
+                Tighter tracking below md. The logo takes 36px out of a 375px
+                header, which is exactly enough to break this line in two.
+              */}
+              <span className="mt-1 whitespace-nowrap text-xs font-medium uppercase tracking-[0.08em] text-ink-3 md:tracking-[0.16em]">
+                Δερματολόγος · Αφροδισιολόγος
+              </span>
             </span>
           </Link>
 

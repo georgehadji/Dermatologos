@@ -7,6 +7,7 @@ import { doctor, mapsLink } from "@/lib/site";
 import { getOpenState, type OpenState } from "@/lib/hours";
 import { PRELOADER_DONE, isPreloaderDone } from "@/components/Preloader";
 import { ArrowRightIcon, MapPinIcon, PhoneIcon } from "@/components/Icon";
+import LensReveal from "@/components/LensReveal";
 import SplitLines from "@/components/SplitLines";
 
 export default function Hero() {
@@ -43,7 +44,7 @@ export default function Hero() {
   return (
     <section
       ref={root}
-      className="intro-stage relative flex min-h-[100svh] flex-col justify-end overflow-hidden pb-14 pt-32"
+      className="intro-stage relative overflow-hidden pb-12 pt-32 md:pb-16 md:pt-40"
     >
       {/*
         The wash used to be a WebGL shader. Once it settled it was a static
@@ -53,113 +54,144 @@ export default function Hero() {
       <div aria-hidden className="hero-wash pointer-events-none absolute inset-0 -z-10" />
 
       <div className="shell">
-        <SplitLines
-          as="h1"
-          waitFor={PRELOADER_DONE}
-          delay={0.15}
-          className="display text-[clamp(3rem,11vw,10rem)]"
-        >
-          {doctor.firstName}
-          <br />
-          <em className="not-italic text-accent">{doctor.lastName}</em>
-        </SplitLines>
-
-        <div className="mt-10 grid gap-8 border-t border-line pt-8 md:grid-cols-12">
-          <p
-            className="intro-item text-sm font-semibold uppercase tracking-[0.14em] text-ink md:col-span-3"
-            style={{ "--i": 0 } as React.CSSProperties}
-          >
-            {doctor.specialty}
-          </p>
-          <ul
-            className="intro-item space-y-1.5 text-ink-2 md:col-span-4"
-            style={{ "--i": 1 } as React.CSSProperties}
-          >
-            {doctor.credentials.map((c) => (
-              <li key={c}>{c}</li>
-            ))}
-          </ul>
-          {/*
-            For a walk-in practice the product is where and when. That belongs in
-            the first viewport, not a sentence about philosophy.
-          */}
-          <div className="intro-item md:col-span-5" style={{ "--i": 2 } as React.CSSProperties}>
-            <p className="text-ink">
-              {doctor.address.street}, {doctor.address.area} {doctor.address.postal}
-            </p>
-            <p className="mt-1 text-ink-2">
-              {doctor.hours.label} {doctor.hours.open}–{doctor.hours.close} · {doctor.hours.note}
-            </p>
-            <a
-              href={mapsLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-accent link-line-on link-line"
+        <div className="grid gap-12 md:grid-cols-12 md:items-center md:gap-10 lg:gap-14">
+          <div className="md:col-span-7">
+            {/*
+              The h1 is the service and the place, not the name. The name was
+              set here at 10rem and again two hundred pixels below it, while
+              the two things a patient actually searches for — what this is and
+              where it is — appeared in neither. The nav wordmark and the
+              portrait caption still say who.
+            */}
+            <SplitLines
+              as="h1"
+              waitFor={PRELOADER_DONE}
+              delay={0.15}
+              className="display text-[clamp(2.1rem,6.5vw,5rem)] [overflow-wrap:anywhere]"
             >
-              <MapPinIcon className="size-4" />
-              Οδηγίες πρόσβασης
-            </a>
+              Κλινική δερματολογία
+              <br />
+              <em className="not-italic text-accent">στην Περαία</em>
+            </SplitLines>
+
+            {/*
+              Credentials, not the specialty. The specialty is already in the
+              nav and under the portrait; what separates this practice from the
+              next listing is the doctorate and the hospital directorship.
+            */}
+            <ul
+              className="intro-item mt-8 space-y-2 border-l-2 border-accent/30 pl-5 text-ink-2 md:mt-10"
+              style={{ "--i": 0 } as React.CSSProperties}
+            >
+              {doctor.credentials.map((c) => (
+                <li key={c}>{c}</li>
+              ))}
+            </ul>
+
+            <div
+              className="intro-item mt-10 flex flex-wrap items-center gap-5"
+              style={{ "--i": 1 } as React.CSSProperties}
+            >
+              <a
+                href={`tel:${doctor.phone}`}
+                className="press inline-flex items-center gap-2.5 rounded-full bg-accent px-8 py-4 font-semibold text-paper transition-colors t-quick hover:bg-ink"
+              >
+                <PhoneIcon className="size-4" />
+                {doctor.phoneDisplay}
+              </a>
+
+              <Link
+                href="/patheseis"
+                className="group inline-flex items-center gap-3 text-sm font-semibold text-ink"
+              >
+                Δείτε τις παθήσεις
+                <span className="grid size-9 place-items-center rounded-full border border-line transition-[background-color,border-color,transform] t-slow group-hover:translate-x-1 group-hover:border-accent group-hover:bg-accent">
+                  <ArrowRightIcon className="size-4 text-ink transition-colors group-hover:text-paper" />
+                </span>
+              </Link>
+
+              {/*
+                Always laid out, filled in after mount: the badge must not push
+                the two buttons sideways when the open state arrives.
+              */}
+              <span
+                aria-live="polite"
+                className="inline-flex min-h-[42px] min-w-[16rem] items-center gap-2.5 rounded-full border border-line bg-paper-2/70 px-4 py-2.5 text-sm text-ink-2 backdrop-blur xl:hidden"
+                style={{ visibility: state ? "visible" : "hidden" }}
+              >
+                {state && (
+                  <>
+                    <span
+                      className={`size-1.5 rounded-full ${state.open ? "bg-accent-2" : "bg-ink-3"}`}
+                      style={
+                        state.open
+                          ? {
+                              boxShadow:
+                                "0 0 0 4px color-mix(in srgb, var(--color-accent-2) 22%, transparent)",
+                            }
+                          : undefined
+                      }
+                    />
+                    {state.label}
+                  </>
+                )}
+              </span>
+            </div>
           </div>
-        </div>
-
-        <div className="mt-12 flex flex-wrap items-center gap-5">
-          <a
-            href={`tel:${doctor.phone}`}
-            className="press intro-item inline-flex items-center gap-2.5 rounded-full bg-accent px-8 py-4 font-semibold text-paper transition-colors t-quick hover:bg-ink"
-            style={{ "--i": 3 } as React.CSSProperties}
-          >
-            <PhoneIcon className="size-4" />
-            {doctor.phoneDisplay}
-          </a>
-
-          <Link
-            href="/patheseis"
-            className="intro-item group inline-flex items-center gap-3 text-sm font-semibold text-ink"
-            style={{ "--i": 4 } as React.CSSProperties}
-          >
-            Δείτε τις παθήσεις
-            <span className="grid size-9 place-items-center rounded-full border border-line transition-[background-color,border-color,transform] t-slow group-hover:translate-x-1 group-hover:border-accent group-hover:bg-accent">
-              <ArrowRightIcon className="size-4 text-ink transition-colors group-hover:text-paper" />
-            </span>
-          </Link>
 
           {/*
-            Always laid out, filled in after mount: the badge must not push the
-            two buttons sideways when the open state arrives.
+            The portrait moved up from the section below. A physician's face is
+            the strongest asset on the page and it was sitting one scroll under
+            the fold while a name occupied the space it should have had.
+            Capped width: at the full 5-column measure the 4:5 crop runs past
+            650px and pushes everything else off the first screen.
           */}
-          <span
-            aria-live="polite"
-            className="intro-item inline-flex min-h-[42px] min-w-[16rem] items-center gap-2.5 rounded-full border border-line xl:hidden bg-paper-2/70 px-4 py-2.5 text-sm text-ink-2 backdrop-blur"
-            style={{ "--i": 5, visibility: state ? "visible" : "hidden" } as React.CSSProperties}
+          <figure
+            className="intro-item w-full md:col-span-5 md:max-w-[26rem] md:justify-self-end"
+            style={{ "--i": 2 } as React.CSSProperties}
           >
-            {state && (
-              <>
-                <span
-                  className={`size-1.5 rounded-full ${state.open ? "bg-accent-2" : "bg-ink-3"}`}
-                  style={
-                    state.open
-                      ? {
-                          boxShadow:
-                            "0 0 0 4px color-mix(in srgb, var(--color-accent-2) 22%, transparent)",
-                        }
-                      : undefined
-                  }
-                />
-                {state.label}
-              </>
-            )}
-          </span>
+            <LensReveal
+              src="/images/dermatologos-athanasios-chrysospathis.webp"
+              detailSrc="/images/dermatologos-athanasios-chrysospathis.webp"
+              alt={`${doctor.name}, ${doctor.specialty}`}
+              className="aspect-[4/5] w-full rounded-sm"
+              radius={128}
+              priority
+            />
+            <figcaption className="mt-4 flex flex-col gap-1">
+              <span className="display text-xl md:text-2xl">{doctor.name}</span>
+              <span className="text-xs font-medium uppercase tracking-[0.12em] text-ink-3">
+                {doctor.specialty}
+              </span>
+            </figcaption>
+          </figure>
         </div>
-      </div>
 
-      <div
-        className="intro-item shell mt-16 flex items-center gap-3 text-xs uppercase tracking-[0.18em] text-ink-3"
-        style={{ "--i": 6 } as React.CSSProperties}
-      >
-        <span className="relative block h-10 w-px overflow-hidden bg-line" aria-hidden>
-          <span className="absolute inset-x-0 top-0 h-4 animate-[scrollhint_2.2s_cubic-bezier(0.16,1,0.3,1)_infinite] bg-accent" />
-        </span>
-        Κυλήστε
+        {/*
+          For a walk-in practice the product is where and when. That belongs in
+          the first viewport, on one hairline, not in a sentence about
+          philosophy.
+        */}
+        <div
+          className="intro-item mt-14 flex flex-wrap items-center gap-x-8 gap-y-2 border-t border-line pt-6 text-sm md:mt-16"
+          style={{ "--i": 3 } as React.CSSProperties}
+        >
+          <p className="text-ink">
+            {doctor.address.street}, {doctor.address.area} {doctor.address.postal}
+          </p>
+          <p className="text-ink-2">
+            {doctor.hours.label} {doctor.hours.open}–{doctor.hours.close} · {doctor.hours.note}
+          </p>
+          <a
+            href={mapsLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link-line-on link-line inline-flex items-center gap-2 font-semibold text-accent"
+          >
+            <MapPinIcon className="size-4" />
+            Οδηγίες πρόσβασης
+          </a>
+        </div>
       </div>
     </section>
   );

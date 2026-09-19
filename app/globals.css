@@ -251,11 +251,6 @@
   }
 }
 
-@keyframes scrollhint {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(250%); }
-}
-
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

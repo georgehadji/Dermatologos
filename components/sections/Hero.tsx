@@ -83,8 +83,16 @@ export default function Hero() {
               className="intro-item mt-8 space-y-2 border-l-2 border-accent/30 pl-5 text-ink-2 md:mt-10"
               style={{ "--i": 0 } as React.CSSProperties}
             >
+              {/*
+                `text-balance` because the directorship line is long enough to
+                wrap on a phone and was breaking after "424", leaving "ΓΣΝΕ"
+                alone on the second line. Balancing splits it near the middle
+                instead of dropping a four-letter orphan under a full line.
+              */}
               {doctor.credentials.map((c) => (
-                <li key={c}>{c}</li>
+                <li key={c} className="text-balance">
+                  {c}
+                </li>
               ))}
             </ul>
 

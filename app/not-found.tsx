@@ -1,7 +1,19 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { doctor, nav } from "@/lib/site";
+
+/*
+ * Without this the 404 inherited the root layout's title, so a visitor who hit
+ * a dead link saw "Αθανάσιος Χρυσοσπάθης — Δερματολόγος…" in the tab and in
+ * their history: the page said "not found" while the browser said "homepage".
+ * The route already returns a real 404 and is noindex'd, so this is purely
+ * about the tab, the back-button list and anything that reads titles.
+ */
+export const metadata: Metadata = {
+  title: "Η σελίδα δεν βρέθηκε — 404",
+};
 
 export default function NotFound() {
   return (

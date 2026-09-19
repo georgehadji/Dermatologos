@@ -67,7 +67,12 @@ export default function DoctorIntro({ full = false }: { full?: boolean }) {
   );
 
   return (
-    <section id="iatros" className="section-y">
+    /*
+      Tight on the homepage: this teaser answers the hero directly, so it
+      belongs to it. On /iatros it is the page's main content and takes the
+      full interval.
+    */
+    <section id="iatros" className={full ? "section-y" : "section-y-tight"}>
       <div className="shell grid gap-16 md:grid-cols-12 md:gap-12">
         {full ? (
           <>

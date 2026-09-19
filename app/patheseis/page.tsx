@@ -48,7 +48,8 @@ export default function PatheseisPage() {
           lead="Δέκα πεδία κλινικής δερματολογίας. Κάθε ενότητα εξηγεί τι να προσέξετε, πότε αξίζει να απευθυνθείτε σε ιατρό και πώς προσεγγίζεται στο ιατρείο."
           crumbs={crumbs}
         />
-        <ConditionsGrid heading="Όλες οι παθήσεις" showCta={false} />
+        {/* The lead above already says this; see ConditionsGrid's `intro` prop. */}
+        <ConditionsGrid heading="Όλες οι παθήσεις" intro={null} showCta={false} />
         <ContactBlock />
       </main>
       <Footer />

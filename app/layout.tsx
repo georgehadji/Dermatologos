@@ -7,17 +7,32 @@ import MobileCallBar from "@/components/MobileCallBar";
 import JsonLd from "@/components/JsonLd";
 import "./globals.css";
 
+/*
+ * Only the faces the site actually sets are requested here. next/font emits a
+ * separate file per weight/style/subset and preloads every one of them, so an
+ * unused weight is not dead code that tree-shakes away — it is a render-blocking
+ * download on first paint.
+ *
+ * Garamond is display-only and `.display` pins weight 400, so 500 and 600 were
+ * never selectable. Italic was worse than unused: the design system forbids
+ * italic headings and every <em> on the site carries `not-italic`, so the
+ * italic faces could not be reached by any selector while still doubling this
+ * family's payload.
+ *
+ * Manrope keeps 400/500/600 — the only weights reachable through the default
+ * body weight, `font-medium` and `font-semibold`. Nothing uses `font-light`
+ * or `font-bold`.
+ */
 const garamond = EB_Garamond({
   subsets: ["greek", "latin"],
-  weight: ["400", "500", "600"],
-  style: ["normal", "italic"],
+  weight: ["400"],
   variable: "--font-eb-garamond",
   display: "swap",
 });
 
 const manrope = Manrope({
   subsets: ["greek", "latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "500", "600"],
   variable: "--font-manrope",
   display: "swap",
 });

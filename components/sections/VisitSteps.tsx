@@ -11,7 +11,21 @@ export default function VisitSteps() {
             them or the outline skips a level.
           */}
           <h2 className="eyebrow">Η επίσκεψη</h2>
-          <p className="mt-6 max-w-sm text-ink-2">
+
+          {/*
+            Set in the display face rather than at body size. The four step
+            titles below are 30px, so with this at 16px the steps outranked the
+            header of their own section — the largest type in the block was the
+            detail, not the frame. Promoting the existing sentence gives the
+            section an anchor without claiming anything the copy did not
+            already say.
+          */}
+          {/*
+            The 4vw term is set so the deck overtakes the step titles the
+            moment `md:` lifts them from 24px to 30px at 768. A gentler curve
+            left the inversion in place across the whole tablet range.
+          */}
+          <p className="display mt-6 max-w-sm text-[clamp(1.625rem,4vw,2rem)] leading-[1.25] text-ink">
             Με ή χωρίς ραντεβού, σε σταθερό απογευματινό ωράριο. Τέσσερα βήματα,
             από την πόρτα μέχρι την επανεκτίμηση.
           </p>

@@ -20,7 +20,11 @@ export default function Reviews() {
   ];
 
   return (
-    <section className="section-y">
+    /*
+      Tight. Four rows of record and a rating line do not need the same
+      breathing room as the conditions index above it.
+    */
+    <section className="section-y-tight">
       <div className="shell">
         {/*
           No display heading here. The record speaks plainly enough on its own,

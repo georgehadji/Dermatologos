@@ -112,6 +112,22 @@
     padding-block: clamp(6rem, 12vw, 12rem);
   }
 
+  /*
+   * A closer interval, for a section that continues the one above it rather
+   * than opening a new chapter.
+   *
+   * Every section on the homepage used to sit at the full `.section-y` on both
+   * edges, which put an identical 345px gap between all seven of them. With no
+   * interval larger or smaller than any other there is no grouping: the page
+   * reads as a list of equally weighted slabs, and the two shortest sections —
+   * the intro teaser and the credentials record — floated inside more padding
+   * than they had content. Pacing is what makes a long page feel composed
+   * rather than stacked.
+   */
+  .section-y-tight {
+    padding-block: clamp(4rem, 7vw, 7rem);
+  }
+
   /* ——— Interaction utilities ———
    * Pair one of these with a Tailwind `transition-*` so the property list stays
    * explicit at the call site and the timing stays consistent across the site.

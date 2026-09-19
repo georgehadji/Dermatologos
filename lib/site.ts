@@ -79,9 +79,13 @@ export const doctor = {
     note: "με ή χωρίς ραντεβού",
     /**
      * The listing says "Καθημερινά", which in Greek business usage normally means
-     * Mon–Fri but literally reads "daily". We show the original wording and treat
-     * it as Mon–Fri for the open-now badge and schema, so nobody is told the
-     * office is open on a day it is not. Confirm with the practice — see CONTENT.md.
+     * Mon–Fri but literally reads "daily". We show the original wording and drive
+     * the open-now badge and the opening-hours schema from these day indices, so
+     * nobody is told the office is open on a day it is not.
+     *
+     * Confirmed Mon–Fri by the client on 2026-09-20 — see CONTENT.md, "Confirmed
+     * since publication". Saturday is genuinely closed; this is not an assumption
+     * standing in for an answer.
      */
     weekdays: [1, 2, 3, 4, 5],
   },

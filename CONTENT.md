@@ -28,18 +28,16 @@ takes booked appointments by phone as well. Every mention now reads «με ή χ
 ραντεβού» and `doctor.hours.note` carries that wording, so the correction
 propagates from one place.
 
+**«Καθημερινά» — which days (2026-09-20).** The listing says *Καθημερινά*, which
+reads literally as "daily" but in Greek business usage normally means Monday to
+Friday. The client confirmed **Δευτέρα–Παρασκευή**. `doctor.hours.weekdays` was
+already `[1,2,3,4,5]`, so the open-now badge and the `openingHoursSpecification`
+in the JSON-LD were correct as published and nothing changed; this entry records
+that the reading is now confirmed rather than assumed.
+
 ## Needs confirmation before launch
 
-### 1. «Καθημερινά» — which days?
-
-The listing says *Καθημερινά*, which reads literally as "daily" but in Greek
-business usage normally means Monday–Friday. The site shows the original wording
-and treats it as **Mon–Fri** for the open-now badge and the opening-hours
-schema, so no one is told the office is open on a day it is not.
-
-Change `doctor.hours.weekdays` in `lib/site.ts` if Saturday is included.
-
-### 2. Condition pages
+### 1. Condition pages
 
 `conditions[].intro`, `.symptoms`, `.whenToVisit` and `.approach` are general
 clinical information written for this build. They follow mainstream consensus
@@ -50,7 +48,7 @@ The `.approach` field in particular makes concrete claims about the consultation
 (written treatment plans, dermatoscopy where indicated, a scheduled follow-up).
 Confirm each one is accurate.
 
-### 3. Articles
+### 2. Articles
 
 All eight articles in `lib/articles.ts` were written for this build and are
 attributed to the practice. They must be reviewed and approved before
@@ -59,19 +57,19 @@ publication — they carry the physician's name and his professional credibility
 Every article ends with a disclaimer block (`t: "note"`) stating the content is
 informational and does not replace examination.
 
-### 4. Biography
+### 3. Biography
 
 `components/sections/DoctorIntro.tsx` contains two paragraphs (and two more on
 `/iatros`) describing the practice's approach. Only the credentials in them are
 verified; the description of how the practice operates is not.
 
-### 5. Photography
+### 4. Photography
 
 Every file in `public/images/` is a generated placeholder. `PROMPTS.md` has a
 prompt for each. `dermatologos-athanasios-chrysospathis.webp` stands in for a real, named person and is
 presented to patients as him.
 
-### 6. Missing from the listing, currently absent from the site
+### 5. Missing from the listing, currently absent from the site
 
 - No email address is published anywhere. The contact form is the only written
   channel, and it relays to `8alassanews@gmail.com`.
@@ -82,7 +80,7 @@ presented to patients as him.
 - The single 5.0 review has no visible text on the source listing, so no review
   text is quoted anywhere. Nothing was invented to fill the gap.
 
-### 7. Scope
+### 6. Scope
 
 The listing advertises **clinical dermatology only**. No aesthetic, laser or
 surgical service appears anywhere on the site, and `public/llms.txt` states this

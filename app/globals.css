@@ -193,6 +193,19 @@
   }
 
   /*
+   * Hides the scrollbar without disabling the scroll. Only for a track that
+   * ships its own visible control — the clinic gallery's arrows — because a
+   * scroll container with no scrollbar and no affordance is a container whose
+   * contents are invisible to anyone who does not think to swipe it.
+   */
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /*
    * Homepage hero wash. Two soft radials over the paper, drawn from the same
    * tokens as everything else — the WebGL shader this replaces carried its own
    * copies of the palette as raw hex, which is how a palette drifts.

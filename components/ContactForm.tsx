@@ -145,6 +145,7 @@ export default function ContactForm() {
           απευθείας στο ιατρείο.
         </p>
         <button
+          type="button"
           onClick={() => setStatus("idle")}
           className="mt-8 cursor-pointer text-sm font-semibold text-accent link-line-on link-line"
         >
